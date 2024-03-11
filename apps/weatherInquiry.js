@@ -3,7 +3,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
 import axios from 'axios'
 
-export class weatherQuery extends plugin {
+export class weatherInquiry extends plugin {
     constructor() {
         super({
             name: '天气查询',
@@ -14,13 +14,13 @@ export class weatherQuery extends plugin {
                 {
 
                     reg: '(.+)天气$',
-                    fnc: 'weatherQuery'
+                    fnc: 'weatherInquiry'
                 },
             ]
         })
     }
 
-    async weatherQuery(e) {
+    async weatherInquiry(e) {
         const cityName = e.msg.split('天气')[0]
         let gaode_url = `https://restapi.amap.com/v3/geocode/geo?address=${cityName}&output=JSON&key=${geo_key}`
         const gaode_response = await axios.get(gaode_url)
@@ -48,7 +48,7 @@ export class weatherQuery extends plugin {
             const wind_level = common.get_wind_level(wind_speed, wind_direction)
             //获取城市 cityName 天气情况
             // const weather_condition = weather_config.get(weather_data.skycon)
-            const skycon_data = common.readJsonFile('/root/Yunzai/plugins/groupSetting/config/weather_skycon.json')
+            const skycon_data = common.readJsonFile('/root/Yunzai/plugins/group-plugin/config/weather_skycon.json')
             const weather_condition = skycon_data[weather_data.skycon]
             if (weather_alert.content.length) {
                 let msg = [
