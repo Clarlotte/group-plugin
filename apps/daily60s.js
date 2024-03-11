@@ -6,7 +6,7 @@ import path from 'path'
 const pushTime = '0 0 8 * * ?'
 
 export class autoDaily60s extends plugin {
-    dirPath = path.resolve('./plugins/groupSetting/data')
+    dirPath = path.resolve('./plugins/group-plugin/data')
     constructor() {
         super({
             name: '每日60s',
