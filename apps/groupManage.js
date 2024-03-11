@@ -4,8 +4,8 @@ import path from 'path'
 
 const Numreg = '[零一壹二两三四五六七八九十百千万亿\\d]+'
 
-export class groupSetting extends plugin {
-    dirPath = path.resolve('./plugins/groupSetting/data')
+export class groupManage extends plugin {
+    dirPath = path.resolve('./plugins/group-plugin/data')
     constructor() {
         super({
             name: "群管功能",
