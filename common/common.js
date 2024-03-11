@@ -1,7 +1,7 @@
 import yaml from 'js-yaml'
 import fs from 'fs'
 
-let YamlReader = await import('/root/Yunzai/plugins/groupSetting/config/yamlreader.js')
+let YamlReader = await import('/root/Yunzai/plugins/group-plugin/config/yamlreader.js')
 YamlReader = YamlReader.default
 let pathAddr = process.cwd().replace(/\\/g, '/')
 
@@ -167,7 +167,7 @@ function getGroupYaml(dirPath, group_id) {
         }
         fs.writeFileSync(groupPath, yaml.dump(Data), 'utf-8')
     }
-    let groupcfg = new YamlReader(pathAddr + '/plugins/groupSetting/data/' + `/${group_id}/` + group_id + '.yaml', true)
+    let groupcfg = new YamlReader(pathAddr + '/plugins/group-plugin/data/' + `/${group_id}/` + group_id + '.yaml', true)
     return groupcfg
 }
 
