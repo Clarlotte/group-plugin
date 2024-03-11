@@ -3,9 +3,9 @@ import common from '../common/common.js'
 import path from 'path'
 import fs from 'fs'
 
-export class example2 extends plugin {
+export class speechStatistics extends plugin {
 
-    dirPath = path.resolve('./plugins/groupSetting/data')
+    dirPath = path.resolve('./plugins/group-plugin/data')
     constructor() {
         super({
             name: '发言次数统计',
@@ -87,14 +87,14 @@ export class example2 extends plugin {
         ctx.fillText(msg, 0, 20)
         for (let item of data) {
             paiming++
-            ctx.fillText(`第${paiming}名：${item.nickname}`, 0, 20 * (paiming + 1))
+            ctx.fillText(`第${paiming}名:${item.nickname}`, 0, 20 * (paiming + 1))
             const textWidth = ctx.measureText(`${item.number}条`).width
             console.log(textWidth)
             ctx.fillText(`${item.number}条`, canvas.width - textWidth, 20 * (paiming + 1))
         }
         const buffer = canvas.toBuffer('image/png')
-        fs.writeFileSync('output.png', buffer)
-        e.reply([segment.image(`./output.png`)])
+        fs.writeFileSync(`./plugins/group-plugin/data/${e.group_id}/output.png`, buffer)
+        e.reply([segment.image(`./plugins/group-plugin/data/${e.group_id}/output.png`)])
         return true
     }
 
