@@ -6,7 +6,7 @@
 
 针对于如何使用QQNT登录云崽可查看教程[如何使用QQNT登录云崽](https://gitee.com/clarlotte/group-plugin/blob/master/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8QQNT%E7%99%BB%E5%BD%95%E4%BA%91%E5%B4%BD.md)(教程内容可能存在部分错误，可以自行issue)<br>
 
-天气查询使用的是[彩云天气API](https://platform.caiyunapp.com/login)（[彩云天气API文档](https://docs.caiyunapp.com/docs/intro)），**key**自行登录获取，由于彩云天气使用的是经纬度坐标进行查询天气，所以这里使用了高德对用户发送的城市进行经纬度转化（[高德开放平台](https://lbs.amap.com/)，并创建web服务应用获取**key**）<br>
+天气查询使用的是[彩云天气API](https://platform.caiyunapp.com/login)（[彩云天气API文档](https://docs.caiyunapp.com/docs/intro)），**key**自行登录获取，由于彩云天气使用的是经纬度坐标进行查询天气，所以这里使用了高德对用户发送的城市进行经纬度转化（[高德开放平台](https://lbs.amap.com/)，并创建web服务应用获取**key**），将这两个key填入config/config.js中<br>
 
 ## 注意
 groupManage中部分指令（入群验证答案，入群审核，自动审核）需要配合另外一个插件进行使用，由于该插件存在部分问题，并没有上传<br>
