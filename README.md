@@ -26,4 +26,4 @@ pnpm i
 ## 功能说明
 所有指令均无`/`、`#`等符号，如需，请自行添加<br>
 1. 今日日报
-[今日日报](https://s2.loli.net/2024/03/12/ed5NiS9tI6VDavn.png)
+![今日日报](https://s2.loli.net/2024/03/12/ed5NiS9tI6VDavn.png)
