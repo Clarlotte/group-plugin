@@ -152,16 +152,8 @@ function getGroupYaml(dirPath, group_id) {
     if (!fs.readdirSync(dirPath + `/${group_id}/`, 'utf-8').includes(group_id + '.yaml')) {
         let groupPath = dirPath + `/${group_id}/` + group_id + '.yaml'
         let Data = {
-            //入群验证
-            comment: [],
-            //群申请通知，默认false
-            groupNotice: false,
             //每日60s定时推送开关，默认true
             DayNewsSet: true,
-            //自动审核入群，默认false
-            AtuoExamine: false,
-            //入群等级限制，默认16级
-            Levellimit: 16,
             //发言榜榜单上线人数，默认10
             Listlimit: 10,
         }
