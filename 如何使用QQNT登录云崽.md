@@ -14,7 +14,7 @@ docker run -itd --name ntqq --add-host=host.docker.internal:host-gateway -p 6080
 docker ps -a #查看docker容器
 ```
 
-![image-20240311201249390](../img/image-20240311201249390.png)
+![image-20240311201249390](https://s2.loli.net/2024/03/12/mCublYyTexkrPEM.png)
 
 ```bash
 docker exec -it containerID前三位 bash #进入容器终端
@@ -46,9 +46,9 @@ unzip LLOneBot.zip -d ./LLOneBot
 然后按`ctrl + d`退出容器终端，重启容器：
 `docker restart containerID`，然后访问`服务器IP:6080`，登录QQ，就可以在QQ设置中看到该插件
 
-![image-20240311203852886](../img/image-20240311203848892.png)
+![image-20240311203852886](https://s2.loli.net/2024/03/12/p4CRqfKsG5ArNZe.png)
 
-![image-20240311203911889](../img/image-20240311203911889.png)
+![image-20240311203911889](https://s2.loli.net/2024/03/12/QUpsCNq2oxTh6bJ.png)
 
 ```bash
 ctrl + d #退出容器终端
@@ -70,7 +70,7 @@ ffmpeg路径`/usr/bin/ffmpeg`
 apt install ffmpeg -y
 ```
 
-![image-20240311204350676](../img/image-20240311204350676.png)
+![image-20240311204350676](https://s2.loli.net/2024/03/12/BR9xvhC5aHe8AtT.png)
 
 至此，docker容器操作结束，我们返回宿主机，安装
 
@@ -82,7 +82,7 @@ apt install ffmpeg -y
 
 然后`node app`运行一下云崽，生成配置文件，完事后直接`ctrl+c`，然后将方框中的内容填写在`ws-plugin/config/config/ws-config.yaml`中
 
-![image-20240311205042713](../img/image-20240311205042713.png)
+![image-20240311205042713](https://s2.loli.net/2024/03/12/OkzP4GXF12wZt5L.png)
 
 ```javascript
 # 连接服务列表
