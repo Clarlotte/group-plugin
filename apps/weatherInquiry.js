@@ -61,7 +61,7 @@ export class weatherInquiry extends plugin {
                     `空气质量：${weather_data.air_quality.description.chn}  ${weather_data.air_quality.aqi.chn}\n`,
                     `本地降水强度：${weather_data.precipitation.local.intensity}mm/hr`,
                 ]
-                e.reply(msg, true)
+                e.reply(msg)
                 e.reply(`预警信息：${weather_alert.content[0].description}`)
             } else {
                 let msg = [
@@ -77,7 +77,7 @@ export class weatherInquiry extends plugin {
                 e.reply(msg, true)
             }
         } else {
-            e.reply(`无法查询到该城市的实况天气，请检查是否拼写正确`)
+            e.reply(`无法查询到该城市的实况天气，请检查是否拼写正确`, true)
         }
     }
 }
