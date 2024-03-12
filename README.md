@@ -25,5 +25,13 @@ pnpm i
 ```
 ## 功能说明
 所有指令均无`/`、`#`等符号，如需，请自行添加<br>
-1. 今日日报
+1. 今日日报<br>
 ![今日日报](https://s2.loli.net/2024/03/12/ed5NiS9tI6VDavn.png)
+2. 日报推送<br>
+![日报推送](https://s2.loli.net/2024/03/12/mYvcIKzHklhtsV9.jpg)
+3. 禁言解禁<br>
+![禁言解禁](https://s2.loli.net/2024/03/12/oJsKZtadzDV7ALH.jpg)
+4. 天气查询<br>
+![天气查询](https://s2.loli.net/2024/03/12/Kbx1EkUT9pO75Pm.jpg)
+5.发言日榜（月榜）<br>
+![发言日榜](https://s2.loli.net/2024/03/12/QVkUE3ejnNfmOGZ.jpg)
