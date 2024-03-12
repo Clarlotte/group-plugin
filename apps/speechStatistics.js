@@ -5,7 +5,7 @@
  * 
  * 本人仅针对于此插件进行改善，可以通过指令直接对于排行榜人数上限进行修改
  * 并对于排行榜进行优化以图片方式进行输出（界面过于丑陋，可以自行使用putteteer重新渲染一张背景）
- */ 
+ */
 import Canvas from "canvas"
 import common from '../common/common.js'
 import path from 'path'
@@ -108,7 +108,7 @@ export class speechStatistics extends plugin {
 
     async snots(e) {
         if (!fs.existsSync(this.dirPath + `/${e.group_id}/`)) {
-            fs.mkdirSync(this.dirPath + `/${e.group_id}/`)
+            fs.mkdirSync(this.dirPath + `/${e.group_id}/`, { recursive: true })
         }
         let data;
         let date = await gettoday()
