@@ -8,20 +8,22 @@
 
 天气查询使用的是[彩云天气API](https://platform.caiyunapp.com/login)（[彩云天气API文档](https://docs.caiyunapp.com/docs/intro)），**key**自行登录获取，由于彩云天气使用的是经纬度坐标进行查询天气，所以这里使用了高德对用户发送的城市进行经纬度转化（[高德开放平台](https://lbs.amap.com/)，并创建web服务应用获取**key**），将这两个key填入config/config.js中<br>
 
-## 注意
-所有指令均无`/`、`#`等符号，如需，请自行添加<br>
 ## 安装与更新
 
-### 使用Git安装（推荐）
+## 使用Git安装（推荐）
 
-// 使用gitee
+### 使用gitee
 ```
 git clone --depth=1 https://gitee.com/clarlotte/group-plugin.git ./plugins/group-plugin/
 pnpm i
 ```
-// 使用github
+### 使用github
 
 ```
 git clone --depth=1 https://github.com/Clarlotte/group-plugin.git ./plugins/group-plugin/
 pnpm i
 ```
+## 功能说明
+所有指令均无`/`、`#`等符号，如需，请自行添加<br>
+1. 今日日报
+[今日日报](https://s2.loli.net/2024/03/12/ed5NiS9tI6VDavn.png)
