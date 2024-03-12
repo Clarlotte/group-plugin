@@ -147,7 +147,7 @@ function readJsonFile(filePath) {
 
 function getGroupYaml(dirPath, group_id) {
     if (!fs.existsSync(dirPath + `/${group_id}/`)) {
-        fs.mkdirSync(dirPath + `/${group_id}/`)
+        fs.mkdirSync(dirPath + `/${group_id}/`, { recursive: true })
     }
     if (!fs.readdirSync(dirPath + `/${group_id}/`, 'utf-8').includes(group_id + '.yaml')) {
         let groupPath = dirPath + `/${group_id}/` + group_id + '.yaml'
