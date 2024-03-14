@@ -21,6 +21,11 @@ export class weatherInquiry extends plugin {
     }
 
     async weatherInquiry(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         const cityName = e.msg.split('天气')[0]
         let gaode_url = `https://restapi.amap.com/v3/geocode/geo?address=${cityName}&output=JSON&key=${geo_key}`
         const gaode_response = await axios.get(gaode_url)
