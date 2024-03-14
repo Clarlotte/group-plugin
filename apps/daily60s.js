@@ -29,6 +29,11 @@ export class autoDaily60s extends plugin {
     }
 
     async send60sDayNews(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         let url = 'http://api.2xb.cn/zaob'
         const response = await axios.get(url)
         const imageUrl = response.data.imageUrl
@@ -43,6 +48,7 @@ export class autoDaily60s extends plugin {
         const imageUrl = response.data.imageUrl
         for (let i = 1; i < groupList.length; i++) {
             let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
+            if (!groupcfg.get('GroupManage')) return false
             let msg = segment.image(imageUrl, false, 120)
             if (groupcfg.get('DayNewsSet')) {
                 await Bot.pickGroup(groupList[i]).sendMsg(msg)
