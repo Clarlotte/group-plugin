@@ -2,6 +2,8 @@
 
 ## 关于
 
+指令开启/关闭群管，默认关闭，关闭群管之后，插件内所有功能无效
+
 本插件使用的不是icqq协议，而是使用LiteLoaderQQNT插件将NTQQ支持OneBot11协议进行QQ机器人开发，并搭配[ws-plugin](https://gitee.com/xiaoye12123/ws-plugin)插件对其进行开发，所以，此插件适用于使用OneBot11协议的机器人<br>
 
 针对于如何使用QQNT登录云崽可查看教程[如何使用QQNT登录云崽](https://gitee.com/clarlotte/docker-qqnt)(教程内容可能存在部分错误，可以自行issue)<br>
