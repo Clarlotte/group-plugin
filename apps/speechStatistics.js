@@ -39,6 +39,11 @@ export class speechStatistics extends plugin {
     }
 
     async king(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         let data
         try {
             let date = await gettoday()
@@ -59,6 +64,10 @@ export class speechStatistics extends plugin {
 
     async speechStatistics(e) {
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         let user_msg = e.msg.match(/^发言(日榜|月榜)?$/)
         let data
         try {
@@ -107,6 +116,10 @@ export class speechStatistics extends plugin {
     }
 
     async snots(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            return false
+        }
         if (!fs.existsSync(this.dirPath + `/${e.group_id}/`)) {
             fs.mkdirSync(this.dirPath + `/${e.group_id}/`, { recursive: true })
         }
