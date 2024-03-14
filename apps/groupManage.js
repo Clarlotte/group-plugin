@@ -15,6 +15,10 @@ export class groupManage extends plugin {
             priority: 1,
             rule: [
                 {
+                    reg: '^(开启|关闭)群管$',
+                    fnc: 'setGroupManage',
+                },
+                {
                     reg: '^(开启|关闭)日报推送$',
                     fnc: 'set60sDayNews',
                 },
@@ -35,12 +39,37 @@ export class groupManage extends plugin {
         })
     }
 
+    async setGroupManage(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        let reg = new RegExp(`^(开启|关闭)群管`)
+        let option = reg.exec(e.msg)[1]
+        if ((e.sender.role != 'owner') && (!e.isMaster)) {
+            e.reply(`暂无权限，只有主人和群主才可以进行操作`)
+            return false
+        } else {
+            if (option == '开启') {
+                groupcfg.set('GroupManage', true)
+                e.reply(`该群群管功能已开启`)
+                return true
+            }
+            else {
+                groupcfg.set('GroupManage', false)
+                e.reply(`该群群管功能已关闭`)
+                return true
+            }
+        }
+    }
+
     async set60sDayNews(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         if (e.sender.role == 'member') {
             e.reply(`暂无权限，只有群主和管理员才能操作`)
             return false
         }
-        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         let reg = new RegExp(`^(开启|关闭)日报推送`)
         let option = reg.exec(e.msg)[1]
         if (option == '开启') {
@@ -56,11 +85,15 @@ export class groupManage extends plugin {
     }
 
     async setListLimit(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         if (e.sender.role == 'member') {
             e.reply(`暂无权限，只有群主和管理员才能操作`)
             return false
         }
-        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         let reg = new RegExp('^设置发言榜人数上限([0-9]+)$')
         let num = Number(reg.exec(e.msg)[1])
         groupcfg.set('Listlimit', num)
@@ -68,6 +101,11 @@ export class groupManage extends plugin {
     }
 
     async GroupBan(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         if (e.sender.role == 'member') {
             e.reply(`暂无权限，只有群主和管理员才能操作`)
             return false
@@ -107,6 +145,11 @@ export class groupManage extends plugin {
 
     //解禁群成员
     async GroupunBan(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
         if (e.sender.role == 'member') {
             e.reply(`暂无权限，只有群主和管理员才能操作`)
             return false
