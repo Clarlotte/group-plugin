@@ -3,7 +3,7 @@ import fs from 'fs'
 
 let pathAddr = process.cwd().replace(/\\/g, '/')
 
-let YamlReader = await import(pathAddr+'/plugins/group-plugin/config/yamlreader.js')
+let YamlReader = await import('../config/yamlreader.js')
 YamlReader = YamlReader.default
 
 function translateChinaNum(s_123) {
