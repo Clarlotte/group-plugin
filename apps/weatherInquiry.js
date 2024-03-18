@@ -26,9 +26,17 @@ export class weatherInquiry extends plugin {
             e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
             return false
         }
+        if (geo_key == '' || weather_key == '') {
+            e.reply('天气功能配置不全，请在config.js中进行配置')
+            return false
+        }
         const cityName = e.msg.split('天气')[0]
         let gaode_url = `https://restapi.amap.com/v3/geocode/geo?address=${cityName}&output=JSON&key=${geo_key}`
         const gaode_response = await axios.get(gaode_url)
+        if (gaode_response.data.info == 'INVALID_USER_KEY') {
+            e.reply(`天气配置不正确，请检查高德token是否正确`)
+            return false
+        }
         //检查是否存在 cityName
         const status = gaode_response.data.status
         const province = gaode_response.data.geocodes[0].province
