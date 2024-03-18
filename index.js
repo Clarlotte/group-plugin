@@ -19,6 +19,7 @@ for (let i in files) {
     logger.error(ret[i].reason)
     continue
   }
+  apps[name] = ret[i].value[Object.keys(ret[i].value)[0]]
 }
 logger.mark('-----------------')
 logger.mark('groupSetting载入完毕')
