@@ -1,9 +1,10 @@
 import yaml from 'js-yaml'
 import fs from 'fs'
 
-let YamlReader = await import('/root/Yunzai/plugins/group-plugin/config/yamlreader.js')
-YamlReader = YamlReader.default
 let pathAddr = process.cwd().replace(/\\/g, '/')
+
+let YamlReader = await import(pathAddr+'/plugins/group-plugin/config/yamlreader.js')
+YamlReader = YamlReader.default
 
 function translateChinaNum(s_123) {
     if (!s_123 && s_123 != 0) return s_123
