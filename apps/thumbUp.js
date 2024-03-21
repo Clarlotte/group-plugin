@@ -26,13 +26,13 @@ export class thumbUp extends plugin {
         }
         let isSuccess = await e.bot.sendApi("send_like", {
             user_id: e.user_id,
-            times: 10,
+            times: 20,
         })
         console.log(e)
         if (isSuccess.status == 'ok') {
             e.reply(`我已成功赞你10次，记得回赞哟`)
-        } else if (isSuccess.status == 'faild') {
-            e.reply(`${isSuccess.message}`)
+        } else {
+            e.reply(`点赞失败，原因可能是今日已经赞过了或我俩并非好友`)
         }
     }
 }
