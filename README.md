@@ -24,6 +24,16 @@ pnpm i
 git clone --depth=1 https://github.com/Clarlotte/group-plugin.git ./plugins/group-plugin/
 pnpm i
 ```
+
+排行榜使用的是图片发送，需要系统中安装宋体
+将宋体的.tff文件拷贝到服务器/usr/share/fonts/truetype，然后依次执行
+```
+apt install xfonts-utils
+sudo mkfontscale
+sudo mkfontdir
+sudo fc-cache -fv
+```
+
 ## 功能说明
 
 所有指令均无`/`、`#`等符号，如需，请自行添加<br>
