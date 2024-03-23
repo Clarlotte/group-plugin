@@ -33,6 +33,7 @@ sudo mkfontscale
 sudo mkfontdir
 sudo fc-cache -fv
 ```
+重启云崽即可
 
 ## 功能说明
 
