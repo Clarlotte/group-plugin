@@ -28,7 +28,6 @@ export class thumbUp extends plugin {
             user_id: e.user_id,
             times: 20,
         })
-        console.log(e)
         if (isSuccess.status == 'ok') {
             e.reply(`我已成功赞你10次，记得回赞哟`)
         } else {
