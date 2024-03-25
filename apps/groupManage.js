@@ -46,17 +46,16 @@ export class groupManage extends plugin {
         if ((e.sender.role != 'owner') && (!e.isMaster)) {
             e.reply(`暂无权限，只有主人和群主才可以进行操作`)
             return false
-        } else {
-            if (option == '开启') {
-                groupcfg.set('GroupManage', true)
-                e.reply(`该群群管功能已开启`)
-                return true
-            }
-            else {
-                groupcfg.set('GroupManage', false)
-                e.reply(`该群群管功能已关闭`)
-                return true
-            }
+        }
+        if (option == '开启') {
+            groupcfg.set('GroupManage', true)
+            e.reply(`该群群管功能已开启`)
+            return true
+        }
+        else {
+            groupcfg.set('GroupManage', false)
+            e.reply(`该群群管功能已关闭`)
+            return true
         }
     }
 
@@ -67,8 +66,10 @@ export class groupManage extends plugin {
             return false
         }
         if (e.sender.role == 'member') {
-            e.reply(`暂无权限，只有群主和管理员才能操作`)
-            return false
+            if (!e.isMaster) {
+                e.reply(`暂无权限，只有主人、群主或管理员才能操作`)
+                return false
+            }
         }
         let reg = new RegExp(`^(开启|关闭)日报推送`)
         let option = reg.exec(e.msg)[1]
@@ -91,8 +92,10 @@ export class groupManage extends plugin {
             return false
         }
         if (e.sender.role == 'member') {
-            e.reply(`暂无权限，只有群主和管理员才能操作`)
-            return false
+            if (!e.isMaster) {
+                e.reply(`暂无权限，只有主人、群主或管理员才能操作`)
+                return false
+            }
         }
         let reg = new RegExp('^设置发言榜人数上限([0-9]+)$')
         let num = Number(reg.exec(e.msg)[1])
@@ -107,8 +110,10 @@ export class groupManage extends plugin {
             return false
         }
         if (e.sender.role == 'member') {
-            e.reply(`暂无权限，只有群主和管理员才能操作`)
-            return false
+            if (!e.isMaster) {
+                e.reply(`暂无权限，只有主人、群主或管理员才能操作`)
+                return false
+            }
         }
         let self_data = await e.bot.sendApi("get_group_member_info", {
             group_id: e.group_id,
@@ -151,8 +156,10 @@ export class groupManage extends plugin {
             return false
         }
         if (e.sender.role == 'member') {
-            e.reply(`暂无权限，只有群主和管理员才能操作`)
-            return false
+            if (!e.isMaster) {
+                e.reply(`暂无权限，只有主人、群主或管理员才能操作`)
+                return false
+            }
         }
         let self_data = await e.bot.sendApi("get_group_member_info", {
             group_id: e.group_id,
