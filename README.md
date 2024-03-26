@@ -1,5 +1,5 @@
 # group-plugin
-
+[![Visits Badge](https://badges.pufler.dev/visits/clarlotte/group-plugin)](https://gitee.com/clarlotte/group-plugin/)
 ## 关于
 
 指令开启/关闭群管，默认关闭，关闭群管之后，插件内所有功能无效（如果需要其他的功能，可以提交issue）
