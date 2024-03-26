@@ -18,7 +18,7 @@ export class speechStatistics extends plugin {
         super({
             name: '发言次数统计',
             dsc: '发言次数统计',
-            event: 'message',
+            event: 'message.group',
             priority: -1,
             rule: [
                 {
@@ -116,6 +116,7 @@ export class speechStatistics extends plugin {
     }
 
     async snots(e) {
+        console.log(e.message_id)
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
             return false
@@ -123,13 +124,17 @@ export class speechStatistics extends plugin {
         if (!fs.existsSync(this.dirPath + `/${e.group_id}/`)) {
             fs.mkdirSync(this.dirPath + `/${e.group_id}/`, { recursive: true })
         }
-        let data;
+
+        let data, message_data;
         let date = await gettoday()
         try {
             data = fs.readFileSync(this.dirPath + `/${e.group_id}/${date}_snots.json`, `utf-8`)
             data = JSON.parse(data)
+            message_data = fs.readFileSync(this.dirPath + `/${e.group_id}/${e.group_id}_message.json`, `utf-8`)
+            message_data = JSON.parse(message_data)
         } catch {
             data = []
+            message_data = {}
         }
         let temp_data = []
         for (let item of data) {
@@ -172,6 +177,12 @@ export class speechStatistics extends plugin {
             data = JSON.stringify(data, null, 3)
             fs.writeFileSync(this.dirPath + `/${e.group_id}/${month}_snots.json`, data, `utf-8`)
         }
+        if (!message_data[e.user_id]) {
+            message_data[e.user_id] = [];
+        }
+        message_data[e.user_id].push(e.message_id)
+        message_data = JSON.stringify(message_data, null, 3)
+        fs.writeFileSync(this.dirPath + `/${e.group_id}/${e.group_id}_message.json`, message_data, `utf-8`)
         return false
     }
 }
