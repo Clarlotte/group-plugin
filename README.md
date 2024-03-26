@@ -1,6 +1,5 @@
 # group-plugin
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+
 ## 关于
 
 指令开启/关闭群管，默认关闭，关闭群管之后，插件内所有功能无效（如果需要其他的功能，可以提交issue）
