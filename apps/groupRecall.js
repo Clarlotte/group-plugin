@@ -35,13 +35,11 @@ export class speechStatistics extends plugin {
         }
         let reg = new RegExp(`^批量撤回\\s?((\\d+)\\s)?(\\d+)$`)
         let num = e.msg.match(reg)[3]
-        console.log(num)
         let data = fs.readFileSync(this.dirPath + `/${e.group_id}/${e.group_id}_message.json`, `utf-8`)
         data = JSON.parse(data)
         let i = 1
         while (1) {
             let message_id = data[e.at][data[e.at].length - 1]
-            console.log(message_id)
             e.bot.sendApi("delete_msg", { message_id: message_id })
             data[e.at].pop()
             i++
