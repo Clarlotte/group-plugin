@@ -3,15 +3,13 @@ import common from '../common/common.js'
 import axios from 'axios'
 import path from 'path'
 
-const pushTime = '0 0 8 * * ?'
-
 export class autoDaily60s extends plugin {
     dirPath = path.resolve('./plugins/group-plugin/data')
     constructor() {
         super({
             name: '每日60s',
             dsc: '每日60s',
-            event: 'notice' && 'message',
+            event: 'notice' && 'message.group',
             priority: 1,
             rule: [
                 {
@@ -22,7 +20,7 @@ export class autoDaily60s extends plugin {
             ]
         })
         this.task = {
-            cron: pushTime,
+            cron: '0 0 8 * * ?',
             name: '自动推送每日日报',
             fnc: () => this.push60s()
         }
@@ -48,7 +46,7 @@ export class autoDaily60s extends plugin {
         const imageUrl = response.data.imageUrl
         for (let i = 1; i < groupList.length; i++) {
             let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
-            if (!groupcfg.get('GroupManage')) return false
+            if (!groupcfg.get('GroupManage')) continue
             let msg = segment.image(imageUrl, false, 120)
             if (groupcfg.get('DayNewsSet')) {
                 await Bot.pickGroup(groupList[i]).sendMsg(msg)
