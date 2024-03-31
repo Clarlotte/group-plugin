@@ -51,5 +51,6 @@ sudo fc-cache -fv
 ![天气查询](https://s2.loli.net/2024/03/12/Kbx1EkUT9pO75Pm.jpg)<br>
 5.发言日榜（月榜）<br>
 ![发言日榜](https://s2.loli.net/2024/03/12/QVkUE3ejnNfmOGZ.jpg)
+6.待更新
 
 </details>
