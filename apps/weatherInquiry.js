@@ -8,7 +8,7 @@ export class weatherInquiry extends plugin {
         super({
             name: '天气查询',
             dsc: '查询指定城市天气',
-            event: 'message',
+            event: 'message.group',
             priority: 1,
             rule: [
                 {
@@ -39,10 +39,14 @@ export class weatherInquiry extends plugin {
         }
         //检查是否存在 cityName
         const status = gaode_response.data.status
+        if (!(status == '1')) {
+            e.reply(`无法查询到该城市的实况天气，请检查是否拼写正确`, true)
+            return false
+        }
         const province = gaode_response.data.geocodes[0].province
         const city = gaode_response.data.geocodes[0].city
         const district = gaode_response.data.geocodes[0].district
-        if ((status == '1') && (province.includes(cityName) || city.includes(cityName) || district.includes(cityName))) {//存在 cityName
+        if (province.includes(cityName) || city.includes(cityName) || district.includes(cityName)) {//存在 cityName
             //获取城市 cityName 格式化地址
             let formatted_address = gaode_response.data.geocodes[0].formatted_address
             //获取城市 cityName 经纬度坐标Z
@@ -61,7 +65,7 @@ export class weatherInquiry extends plugin {
             const wind_level = common.get_wind_level(wind_speed, wind_direction)
             //获取城市 cityName 天气情况
             // const weather_condition = weather_config.get(weather_data.skycon)
-            const skycon_data = common.readJsonFile('./plugins/group-plugin/config/weather_skycon.json')
+            const skycon_data = common.readJsonFile('/root/Yunzai/plugins/group-plugin/config/weather_skycon.json')
             const weather_condition = skycon_data[weather_data.skycon]
             if (weather_alert.content.length) {
                 let msg = [
