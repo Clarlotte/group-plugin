@@ -37,7 +37,7 @@ sudo fc-cache -fv
 
 ## 功能说明
 
-所有指令均无`/`、`#`等符号，如需，请自行添加<br>
+所有指令目前均不支持`/`、`#`等符号<br>
 
 <details><summary>展开/收起</summary>
 
