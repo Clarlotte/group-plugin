@@ -93,7 +93,6 @@ export class speechStatistics extends plugin {
         } else {
             canvasWidth = groupcfg.get('Listlimit') * 20 + 10
         }
-        console.log()
         const canvas = Canvas.createCanvas(300, canvasWidth)
         const ctx = canvas.getContext('2d')
         ctx.fillStyle = '#ffffff'
@@ -116,7 +115,6 @@ export class speechStatistics extends plugin {
     }
 
     async snots(e) {
-        console.log(e.message_id)
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
             return false
