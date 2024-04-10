@@ -81,6 +81,7 @@ sudo fc-cache -fv
 如果没有/usr/share/fonts/truetype该文件，执行`apt install fontconfig`，使用`fc-list`查看所有安装了的字体
 
 显示这样就是安装成功
+
 ![](https://s2.loli.net/2024/04/10/t2lH8xjFOkJGEmX.png)
 ## 功能说明
 
