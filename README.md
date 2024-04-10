@@ -4,9 +4,51 @@
 
 指令开启/关闭群管，默认关闭，关闭群管之后，插件内所有功能无效（如果需要其他的功能，可以提交issue）
 
-本插件使用的不是icqq协议，而是使用LiteLoaderQQNT插件将NTQQ支持OneBot11协议进行QQ机器人开发，并搭配[ws-plugin](https://gitee.com/xiaoye12123/ws-plugin)插件对其进行开发，所以，此插件适用于使用OneBot11协议的机器人<br>
+本插件使用的不是icqq协议，而是使用LiteLoaderQQNT插件将NTQQ支持OneBot11协议进行QQ机器人开发
 
-针对于如何使用QQNT登录云崽可查看教程[如何使用QQNT登录云崽](https://gitee.com/clarlotte/docker-qqnt)(教程内容可能存在部分错误，可以自行issue)，LLOneBot已经自带docker镜像（[llonebot-docker](https://github.com/LLOneBot/llonebot-docker)）一键安装<br>
+## 关于如何安装llonebot-docker
+
+<details><summary>展开/收起</summary>
+
+1. 我这里使用的是[llonebot-docker](https://github.com/LLOneBot/llonebot-docker)中方案二LLWebuiApi登录，先下载llonebot-docker镜像
+```
+sudo docker run -d --name onebot-docker0 --add-host=host.docker.internal:host-gateway -e VNC_PASSWD=vncpasswd -p 3000:3000 -p 6099:6099 -p 3001:3001 -v ${PWD}/LiteLoader:/opt/QQ/resources/app/LiteLoader mlikiowa/llonebot-docker:latest 
+```
+其中vncpasswd换成你的VNC密码
+
+然后浏览器访问`http://你的docker-ip:6099/api/panel/getQQLoginQRcode`扫码登录
+
+登录之后访问`http://你的docker-ip:6099/plugin/LLOneBot/iframe.html`进行 llonebot 的配置
+
+2. 扫码登陆后，在配置界面添加反向 WebSocket 监听地址
+
+将`ws://host.docker.internal:2536/OneBotv11`添加到反向 WebSocket 监听地址中并保存
+
+3. 安装TRSS-Yunzai
+
+请根据网络情况选择使用 GitHub 或 Gitee 安装
+
+```
+git clone --depth 1 https://github.com/TimeRainStarSky/Yunzai
+git clone --depth 1 https://gitee.com/TimeRainStarSky/Yunzai
+cd Yunzai
+npm i -g pnpm
+pnpm i
+```
+
+4. 启动TRSS-Yunzai
+
+```
+node app
+#后台启动
+pm2 start node --name TRSS-Yunzai -- app
+#查看日志
+pm2 logs TRSS-Yunzai
+#重启云崽服务
+pm2 restart TRSS-Yunzai
+```
+
+</details>
 
 天气查询使用的是[彩云天气API](https://platform.caiyunapp.com/login)（[彩云天气API文档](https://docs.caiyunapp.com/docs/intro)），**key**自行登录获取，由于彩云天气使用的是经纬度坐标进行查询天气，所以这里使用了高德对用户发送的城市进行经纬度转化（[高德开放平台](https://lbs.amap.com/)，并创建web服务应用获取**key**），将这两个key填入config/config.js中<br>
 
