@@ -11,7 +11,7 @@ export class groupManage extends plugin {
             name: "群管功能",
             dsc: "对群进行管理",
             /** https://oicqjs.github.io/oicq/#events */
-            event: "message",
+            event: "message.group",
             priority: 1,
             rule: [
                 {
@@ -33,6 +33,10 @@ export class groupManage extends plugin {
                 {
                     reg: '^解禁(\\d+)?$',
                     fnc: 'GroupunBan',
+                },
+                {
+                    reg: `^踢(\\d+)?$`,
+                    fnc: 'kickGroupMember',
                 },
 
             ]
@@ -123,6 +127,10 @@ export class groupManage extends plugin {
             e.reply(`暂无权限，我无权对任何人进行此操作`)
             return false
         }
+        if (e.at == null) {
+            e.reply(`没有指定需要禁言的人，我不知道需要对谁禁言哟`)
+            return false
+        }
         let ban_data = await e.bot.sendApi("get_group_member_info", {
             group_id: e.group_id,
             user_id: e.at,
@@ -131,6 +139,7 @@ export class groupManage extends plugin {
             e.reply(`暂无权限，我无权对群主或管理员进行此操作`)
             return false
         }
+
         let reg = new RegExp(`^禁言\\s?((\\d+)\\s)?(${Numreg})?(分|分钟|时|小时|天)?$`)
         let time = common.translateChinaNum(e.msg.match(reg)[3])
         let option = e.msg.match(reg)[4]
@@ -169,7 +178,40 @@ export class groupManage extends plugin {
             e.reply(`暂无权限，我无权对任何人进行此操作`)
             return false
         }
+        if (e.at == null) {
+            e.reply(`没有指定需要解禁的人，我不知道需要对谁解禁哟`)
+            return false
+        }
         e.group.muteMember(e.at, 0)
     }
+
+    async kickGroupMember(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
+        if (e.sender.role == 'member') {
+            if (!e.isMaster) {
+                e.reply(`暂无权限，只有主人、群主或管理员才能操作`)
+                return false
+            }
+        }
+        let self_data = await e.bot.sendApi("get_group_member_info", {
+            group_id: e.group_id,
+            user_id: e.self_id,
+        })
+        if (self_data.role == 'member') {
+            e.reply(`暂无权限，我无权对任何人进行此操作`)
+            return false
+        }
+        if (e.at == null) {
+            e.reply(`我不知道你要踢谁哟，请指定一下再进行操作吧`)
+            return false
+        }
+        e.group.kickMember(e.at)
+        e.reply(`我已成功将他踢出`, true)
+    }
+
 }
 
