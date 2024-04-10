@@ -67,8 +67,9 @@ git clone --depth=1 https://github.com/Clarlotte/group-plugin.git ./plugins/grou
 pnpm i
 ```
 
-排行榜使用的是图片发送，需要系统中安装宋体
-将宋体的.tff文件拷贝到服务器/usr/share/fonts/truetype，然后依次执行
+排行榜使用的是图片发送，需要系统中安装宋体，将宋体的文件拷贝到服务器/usr/share/fonts/truetype，然后依次执行
+
+这里提供一个[宋体文件](https://wwb.lanzouq.com/icUHg1uju2ra)，自行下载
 ```
 apt install xfonts-utils
 sudo mkfontscale
@@ -77,6 +78,10 @@ sudo fc-cache -fv
 ```
 重启云崽即可
 
+如果没有/usr/share/fonts/truetype该文件，执行`apt install fontconfig`，使用`fc-list`查看所有安装了的字体
+
+显示这样就是安装成功
+![](https://s2.loli.net/2024/04/10/t2lH8xjFOkJGEmX.png)
 ## 功能说明
 
 所有指令目前均不支持`/`、`#`等符号<br>
