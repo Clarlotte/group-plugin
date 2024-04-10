@@ -13,7 +13,7 @@
 <details><summary>展开/收起</summary>
 
 1. 我这里使用的是[llonebot-docker](https://github.com/LLOneBot/llonebot-docker)中方案二LLWebuiApi登录，先下载llonebot-docker镜像
-```
+```sh
 sudo docker run -d --name onebot-docker0 --add-host=host.docker.internal:host-gateway -e VNC_PASSWD=vncpasswd -p 3000:3000 -p 6099:6099 -p 3001:3001 -v ${PWD}/LiteLoader:/opt/QQ/resources/app/LiteLoader mlikiowa/llonebot-docker:latest 
 ```
 其中vncpasswd换成你的VNC密码
@@ -30,7 +30,7 @@ sudo docker run -d --name onebot-docker0 --add-host=host.docker.internal:host-ga
 
 请根据网络情况选择使用 GitHub 或 Gitee 安装
 
-```
+```sh
 git clone --depth 1 https://github.com/TimeRainStarSky/Yunzai
 git clone --depth 1 https://gitee.com/TimeRainStarSky/Yunzai
 cd Yunzai
@@ -40,7 +40,7 @@ pnpm i
 
 4. 启动TRSS-Yunzai
 
-```
+```sh
 node app
 #后台启动
 pm2 start node --name TRSS-Yunzai -- app
@@ -56,13 +56,13 @@ pm2 restart TRSS-Yunzai
 
 ### 使用Git安装（推荐）
 
-```
+```sh
 git clone --depth=1 https://gitee.com/clarlotte/group-plugin.git ./plugins/group-plugin/
 pnpm i
 ```
 ### 使用github
 
-```
+```sh
 git clone --depth=1 https://github.com/Clarlotte/group-plugin.git ./plugins/group-plugin/
 pnpm i
 ```
@@ -70,7 +70,7 @@ pnpm i
 排行榜使用的是图片发送，需要系统中安装宋体，将宋体的文件拷贝到服务器/usr/share/fonts/truetype，然后依次执行
 
 这里提供一个[宋体文件](https://wwb.lanzouq.com/icUHg1uju2ra)，自行下载
-```
+```sh
 apt install xfonts-utils
 sudo mkfontscale
 sudo mkfontdir
