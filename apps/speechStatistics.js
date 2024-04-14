@@ -105,7 +105,6 @@ export class speechStatistics extends plugin {
             paiming++
             ctx.fillText(`第${paiming}名:${item.nickname}`, 0, 20 * (paiming + 1))
             const textWidth = ctx.measureText(`${item.number}条`).width
-            console.log(textWidth)
             ctx.fillText(`${item.number}条`, canvas.width - textWidth, 20 * (paiming + 1))
         }
         const buffer = canvas.toBuffer('image/png')
