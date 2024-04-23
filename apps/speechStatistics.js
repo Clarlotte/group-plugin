@@ -102,7 +102,7 @@ export class speechStatistics extends plugin {
         });
         const page = await browser.newPage();
         let fontFamily = "Douyin Sans"
-        await page.setViewport({ width: 800, height: height });
+        await page.setViewport({ width: 750, height: height });
         await page.setContent(`
         <!DOCTYPE html>
         <html lang="zh_CN">
@@ -122,7 +122,7 @@ export class speechStatistics extends plugin {
                 }
                 .rounded-box {
                     margin: 10px;
-                    width: 780px;
+                    width: 730px;
                     height: ${height - 20}px;
                     background-color: transparent;
                     border-radius: 20px;
@@ -141,7 +141,7 @@ export class speechStatistics extends plugin {
                     justify-content: flex-start;
                     place-items: center;
                     margin: 20px;
-                    width: 720px;
+                    width: 670px;
                     height: 100px;
                     background-color: rgba(0, 0, 20, 0.6);
                     border-radius: 10px;
@@ -155,6 +155,9 @@ export class speechStatistics extends plugin {
                     white-space: pre-wrap;
                     margin-bottom: 10px
                 }
+                .data{
+                    padding-right: 20px; 
+                }
             </style>
         </head>
         <body>
@@ -165,7 +168,7 @@ export class speechStatistics extends plugin {
         </body>
         </html>
         `)
-        await page.screenshot({ path: this.dirPath + `/${e.group_id}/${e.group_id}.png`, clip: { x: 0, y: 0, width: 800, height: height } });
+        await page.screenshot({ path: this.dirPath + `/${e.group_id}/${e.group_id}.png`, clip: { x: 0, y: 0, width: 750, height: height } });
         await browser.close();
         e.reply(segment.image(this.dirPath + `/${e.group_id}/${e.group_id}.png`));
         return true
