@@ -142,9 +142,10 @@ export class speechStatistics extends plugin {
                     font-weight: bolder;
                 }
                 .user {
-                    display: grid;
-                    justify-content: flex-start;
-                    place-items: center;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    /* 垂直居中 */
                     margin: 20px;
                     width: 670px;
                     height: 100px;
@@ -173,6 +174,7 @@ export class speechStatistics extends plugin {
                 .secondary-line {
                     display: flex;
                     align-items: center;
+                    margin-left: 110px;
                 }
             </style>
         </head>
