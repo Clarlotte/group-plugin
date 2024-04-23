@@ -8,8 +8,11 @@
  */
 import Canvas from "canvas"
 import common from '../common/common.js'
+import puppeteer from "puppeteer";
 import path from 'path'
 import fs from 'fs'
+
+const imageBase64 = ""
 
 export class speechStatistics extends plugin {
 
@@ -85,31 +88,86 @@ export class speechStatistics extends plugin {
         }
         data.sort((a, b) => b.number - a.number)
         data = data.slice(0, groupcfg.get('Listlimit'))
-        let msg = `本群发言榜${user_msg[1] || `日榜`}如下:`
-        let paiming = 0
-        let canvasWidth = 0
-        if (data.length <= groupcfg.get('Listlimit')) {
-            canvasWidth = (data.length + 1) * 20 + 10
-        } else {
-            canvasWidth = groupcfg.get('Listlimit') * 20 + 10
-        }
-        const canvas = Canvas.createCanvas(300, canvasWidth)
-        const ctx = canvas.getContext('2d')
-        ctx.fillStyle = '#ffffff'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-        ctx.fillStyle = 'black'
-        ctx.font = '20px 宋体'
-        ctx.fillText(msg, 0, 20)
+        let msg = `本群发言榜${user_msg[1] || `日榜`}如下：`
+        let div_data = '', paiming = 0, height = 220
         for (let item of data) {
             paiming++
-            ctx.fillText(`第${paiming}名:${item.nickname}`, 0, 20 * (paiming + 1))
-            const textWidth = ctx.measureText(`${item.number}条`).width
-            ctx.fillText(`${item.number}条`, canvas.width - textWidth, 20 * (paiming + 1))
+            div_data += `<div class="user">第${paiming}名：${item.nickname}(${item.user_id})<br>              今天已发言${item.number}条</div>\n`
         }
-        const buffer = canvas.toBuffer('image/png')
-        fs.writeFileSync(`./plugins/group-plugin/data/${e.group_id}/output.png`, buffer)
-        e.reply([segment.image(`./plugins/group-plugin/data/${e.group_id}/output.png`)])
+        height += 120 * (paiming - 1)
+        console.log(height)
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: ["--disable-gpu", "--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
+        });
+        const page = await browser.newPage();
+        let fontFamily = "Douyin Sans"
+        await page.setViewport({ width: 800, height: height });
+        await page.setContent(`
+        <!DOCTYPE html>
+        <html lang="zh_CN">
+        <head>
+            <meta charset="UTF-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Document</title>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background-image: url('https://s2.loli.net/2024/04/23/Urh1jcsCIP6XHRS.jpg');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    font-family: ${fontFamily}; 
+                }
+                .rounded-box {
+                    margin: 10px;
+                    width: 780px;
+                    height: ${height - 20}px;
+                    background-color: transparent;
+                    border-radius: 20px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                }
+                .title {
+                    position: relative;
+                    left: 20px;
+                    top: 10px;
+                    color: #000;
+                    font-size: 50px;
+                    font-weight: bolder;
+                }
+                .user{
+                    display: grid;
+                    justify-content: flex-start;
+                    place-items: center;
+                    margin: 20px;
+                    width: 720px;
+                    height: 100px;
+                    background-color: rgba(0, 0, 20, 0.6);
+                    border-radius: 10px;
+                    backdrop-filter: blur(5px);
+                    position: relative;
+                    top: 10px;
+                    color: #fff;
+                    font-size: 30px;
+                    font-weight: bolder;
+                    padding-left: 20px; 
+                    white-space: pre-wrap;
+                    margin-bottom: 10px
+                }
+            </style>
+        </head>
+        <body>
+            <div class='rounded-box'>
+                <div class="title">${msg}</div>
+                ${div_data}
+            </div>
+        </body>
+        </html>
+        `)
+        await page.screenshot({ path: this.dirPath + `/${e.group_id}/${e.group_id}.png`, clip: { x: 0, y: 0, width: 800, height: height } });
+        await browser.close();
+        e.reply(segment.image(this.dirPath + `/${e.group_id}/${e.group_id}.png`));
         return true
     }
 
