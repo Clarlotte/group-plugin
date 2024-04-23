@@ -92,10 +92,15 @@ export class speechStatistics extends plugin {
         let div_data = '', paiming = 0, height = 220
         for (let item of data) {
             paiming++
-            div_data += `<div class="user">第${paiming}名：${item.nickname}(${item.user_id})<br>              今天已发言${item.number}条</div>\n`
+            div_data += `<div class="user">
+                            <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
+                            <div class="secondary-line">
+                                <div class="message">今天已发言</div>
+                                <span class="number">${item.number}</span>条
+                            </div>
+                        </div>`
         }
         height += 120 * (paiming - 1)
-        console.log(height)
         const browser = await puppeteer.launch({
             headless: true,
             args: ["--disable-gpu", "--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
@@ -136,7 +141,7 @@ export class speechStatistics extends plugin {
                     font-size: 50px;
                     font-weight: bolder;
                 }
-                .user{
+                .user {
                     display: grid;
                     justify-content: flex-start;
                     place-items: center;
@@ -151,12 +156,23 @@ export class speechStatistics extends plugin {
                     color: #fff;
                     font-size: 30px;
                     font-weight: bolder;
-                    padding-left: 20px; 
-                    white-space: pre-wrap;
-                    margin-bottom: 10px
+                    padding-left: 20px;
+                    margin-bottom: 10px;
                 }
-                .data{
-                    padding-right: 20px; 
+                .number {
+                    background-color: rgb(35, 209, 96);
+                    border-radius: 10px;
+                    padding: 5px;
+                    height: 23px;
+                    display: flex;
+                    align-items: center;
+                    margin-right: 5px;
+                    margin-left: 5px;
+                    font-size: 25px;
+                }
+                .secondary-line {
+                    display: flex;
+                    align-items: center;
                 }
             </style>
         </head>
