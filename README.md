@@ -69,7 +69,7 @@ pnpm i
 
 排行榜使用的是图片发送，需要系统中安装宋体，将宋体的文件拷贝到服务器/usr/share/fonts/truetype，然后依次执行
 
-这里提供一个[宋体文件](https://wwb.lanzouq.com/icUHg1uju2ra)，自行下载
+这里提供一个[宋体文件](https://wwb.lanzouq.com/icUHg1uju2ra)，[抖音美好体](https://wwb.lanzouq.com/i9TgF1w964fi)自行下载
 ```sh
 apt install xfonts-utils
 sudo mkfontscale
