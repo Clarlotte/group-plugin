@@ -69,12 +69,12 @@ export class update extends plugin {
     async runUpdate(plugin = '') {
         this.isNowUp = false
 
-        let cm = `cd "plugins/${plugin}" && git pull --no-rebase`
+        let cm = `git -C ./plugins/group-plugin/ pull --no-rebase`
 
         let type = '更新'
         if (this.e.msg.includes('强制')) {
             type = '强制更新'
-            cm = `cd "plugins/${plugin}" && git reset --hard && git pull --rebase --allow-unrelated-histories`
+            cm = `git -C ./plugins/group-plugin/ checkout . && ${command}`
         }
 
         this.oldCommitId = await this.getcommitId(plugin)
