@@ -150,7 +150,7 @@ export class speechStatistics extends plugin {
                     width: 670px;
                     height: 100px;
                     background-color: rgba(0, 0, 20, 0.6);
-                    border-radius: 10px;
+                    border-radius: 20px;
                     backdrop-filter: blur(5px);
                     position: relative;
                     top: 10px;
