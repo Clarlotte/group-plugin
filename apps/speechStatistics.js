@@ -144,7 +144,8 @@ export class speechStatistics extends plugin {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    /* 垂直居中 */
+                    margin-top: 10px;
+                    margin-left: 20px;
                     margin: 20px;
                     width: 670px;
                     height: 100px;
