@@ -74,7 +74,7 @@ export class update extends plugin {
         let type = '更新'
         if (this.e.msg.includes('强制')) {
             type = '强制更新'
-            cm = `git -C ./plugins/group-plugin/ checkout . && ${command}`
+            cm = `git -C ./plugins/group-plugin/ checkout . && ${cm}`
         }
 
         this.oldCommitId = await this.getcommitId(plugin)
