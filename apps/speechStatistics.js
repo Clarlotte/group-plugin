@@ -88,7 +88,7 @@ export class speechStatistics extends plugin {
         data.sort((a, b) => b.number - a.number)
         data = data.slice(0, groupcfg.get('Listlimit'))
         let msg = `本群发言榜${user_msg[1] || `日榜`}如下：`
-        let div_data = '', paiming = 0, height = 240
+        let div_data = '', paiming = 0, height = 230
         for (let item of data) {
             paiming++
             div_data += `<div class="user">
@@ -99,7 +99,7 @@ export class speechStatistics extends plugin {
                             </div>
                         </div>`
         }
-        height += 120 * (paiming - 1)
+        height += 110 * (paiming - 1)
         const browser = await puppeteer.launch({
             headless: true,
             args: ["--disable-gpu", "--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
@@ -146,7 +146,6 @@ export class speechStatistics extends plugin {
                     justify-content: center;
                     margin-top: 10px;
                     margin-left: 20px;
-                    margin: 20px;
                     width: 670px;
                     height: 100px;
                     background-color: rgba(0, 0, 20, 0.6);
