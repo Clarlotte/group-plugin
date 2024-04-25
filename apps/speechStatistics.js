@@ -4,7 +4,6 @@
  * Github主页：Github.com/QianNQQ
  * 
  * 本人仅针对于此插件进行改善，可以通过指令直接对于排行榜人数上限进行修改
- * 并对于排行榜进行优化以图片方式进行输出（界面过于丑陋，可以自行使用putteteer重新渲染一张背景）
  */
 import Canvas from "canvas"
 import common from '../common/common.js'
@@ -89,7 +88,7 @@ export class speechStatistics extends plugin {
         data.sort((a, b) => b.number - a.number)
         data = data.slice(0, groupcfg.get('Listlimit'))
         let msg = `本群发言榜${user_msg[1] || `日榜`}如下：`
-        let div_data = '', paiming = 0, height = 220
+        let div_data = '', paiming = 0, height = 240
         for (let item of data) {
             paiming++
             div_data += `<div class="user">
@@ -176,16 +175,24 @@ export class speechStatistics extends plugin {
                     align-items: center;
                     margin-left: 110px;
                 }
+                .description {
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+                    text-align: center;
+                    padding-top: 5px;
+                    color: #fff;
+                }
             </style>
         </head>
         <body>
             <div class='rounded-box'>
                 <div class="title">${msg}</div>
                 ${div_data}
+                <div class="description"><em>Create By TRSS-Yunzai & Group-Plugin</em></div>
             </div>
         </body>
         </html>
         `)
+
         await page.screenshot({ path: this.dirPath + `/${e.group_id}/${e.group_id}.png`, clip: { x: 0, y: 0, width: 750, height: height } });
         await browser.close();
         e.reply(segment.image(this.dirPath + `/${e.group_id}/${e.group_id}.png`));
