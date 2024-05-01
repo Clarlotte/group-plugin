@@ -40,7 +40,7 @@ export class speechStatistics extends plugin {
         let i = 1
         while (1) {
             let message_id = data[e.at][data[e.at].length - 1]
-            e.bot.sendApi("delete_msg", { message_id: message_id })
+            e.group.recallMsg(message_id)
             data[e.at].pop()
             i++
             if (i > num) break
