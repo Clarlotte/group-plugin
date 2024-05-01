@@ -5,13 +5,10 @@
  * 
  * 本人仅针对于此插件进行改善，可以通过指令直接对于排行榜人数上限进行修改
  */
-import Canvas from "canvas"
 import common from '../common/common.js'
 import puppeteer from "puppeteer";
 import path from 'path'
 import fs from 'fs'
-
-const imageBase64 = ""
 
 export class speechStatistics extends plugin {
 
@@ -31,37 +28,9 @@ export class speechStatistics extends plugin {
                 {
                     reg: '^发言(日榜|月榜)?$',
                     fnc: 'speechStatistics'
-                },
-                {
-                    reg: '^今日逼话王$',
-                    fnc: 'king'
                 }
             ]
         })
-    }
-
-    async king(e) {
-        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
-        if (!groupcfg.get('GroupManage')) {
-            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
-            return false
-        }
-        let data
-        try {
-            let date = await gettoday()
-            data = fs.readFileSync(this.dirPath + `/${e.group_id}/${date}_snots.json`, `utf-8`)
-            data = JSON.parse(data)
-        } catch {
-            e.reply(`本群好像还没人说过话呢~`)
-            return true
-        }
-        data.sort((a, b) => b.number - a.number)
-        let msg = [
-            `今日逼话王非`,
-            segment.at(data[0].user_id),
-            `莫属，他今日共发言${data[0].number}条`
-        ]
-        await e.reply(msg)
     }
 
     async speechStatistics(e) {
