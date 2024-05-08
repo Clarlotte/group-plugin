@@ -97,11 +97,11 @@ sudo fc-cache -fv
 ![禁言解禁](resources/images/%E7%A6%81%E8%A8%80%E8%A7%A3%E7%A6%81.png)
 3. 天气查询<br>
 ![天气查询](resources/images/%E5%A4%A9%E6%B0%94%E6%9F%A5%E8%AF%A2.png)
-4.发言日榜（月榜）<br>
+4. 发言日榜（月榜）<br>
 ![发言日榜](resources/images/%E5%8F%91%E8%A8%80%E6%97%A5%E6%A6%9C.png)
-5.批量撤回<br>
+5. 批量撤回<br>
 ![批量撤回](resources/images/%E6%89%B9%E9%87%8F%E6%92%A4%E5%9B%9E.png)
-6.赞我<br>
+6. 赞我<br>
 ![赞我](resources/images/%E8%B5%9E%E6%88%91.png)
 
 </details>
