@@ -155,8 +155,6 @@ function getGroupYaml(dirPath, group_id) {
         let Data = {
             //群管开关，默认关闭
             GroupManage: false,
-            //每日60s定时推送开关，默认true
-            DayNewsSet: true,
             //发言榜榜单上线人数，默认10
             Listlimit: 10,
         }
