@@ -54,7 +54,7 @@ export class schedule extends plugin {
         })
     }
 
-    async delMonthFlies() {
+    async delMonthFiles() {
         // 获取当前日期
         const currentDate = new Date();
 
