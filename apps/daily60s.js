@@ -19,11 +19,6 @@ export class autoDaily60s extends plugin {
                 },
             ]
         })
-        this.task = {
-            cron: '0 0 8 * * ?',
-            name: '自动推送每日日报',
-            fnc: () => this.push60s()
-        }
     }
 
     async send60sDayNews(e) {
@@ -37,21 +32,5 @@ export class autoDaily60s extends plugin {
         const imageUrl = response.data.imageUrl
         let msg = segment.image(imageUrl, false, 120)
         e.reply(msg)
-    }
-
-    async push60s() {
-        const groupList = Bot.getGroupList()
-        let url = 'http://api.2xb.cn/zaob'
-        let response = await axios.get(url)
-        const imageUrl = response.data.imageUrl
-        for (let i = 1; i < groupList.length; i++) {
-            let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
-            if (!groupcfg.get('GroupManage')) continue
-            let msg = segment.image(imageUrl, false, 120)
-            if (groupcfg.get('DayNewsSet')) {
-                await Bot.pickGroup(groupList[i]).sendMsg(msg)
-                Bot.pickGroup(groupList[i]).sendMsg(`今日早报已送达，请注意查收~`)
-            }
-        }
     }
 }
