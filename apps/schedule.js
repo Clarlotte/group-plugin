@@ -12,6 +12,26 @@ export class schedule extends plugin {
             rule: []
         })
         this.task = [
+            this.task = {
+                cron: '0 0 8 * * ?',
+                /**
+                 * cron表达式：
+                 * 秒 分 时 天 周 月
+                 * '0 0 8 * * ?'代表每天八点执行
+                 */
+                name: '自动推送每日日报',
+                fnc: () => this.push60s()
+            },
+            {
+                cron: '0 0 0 * * *',
+                name: '自动禁言',
+                fnc: () => this.muteAll()
+            },
+            {
+                cron: '0 0 8 * * *',
+                name: '自动解禁',
+                fnc: () => this.unMuteAll()
+            },
             {
                 cron: '0 0 0 * * *',
                 name: '自动删除（天）',
@@ -21,8 +41,48 @@ export class schedule extends plugin {
                 cron: '0 0 0 1 * ?',
                 name: '自动删除（月）',
                 fnc: () => this.delMonthFiles()
-            }
+            },
         ]
+    }
+
+    async push60s() {
+        const groupList = Bot.getGroupList()
+        let url = 'http://api.2xb.cn/zaob'
+        let response = await axios.get(url)
+        const imageUrl = response.data.imageUrl
+        for (let i = 1; i < groupList.length; i++) {
+            let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
+            if (!groupcfg.get('GroupManage')) continue
+            if (groupcfg.get('DayNewsSet')) {
+                let msg = segment.image(imageUrl, false, 120)
+                await Bot.pickGroup(groupList[i]).sendMsg(msg)
+                Bot.pickGroup(groupList[i]).sendMsg(`今日早报已送达，请注意查收~`)
+            }
+        }
+    }
+
+    async muteAll() {
+        const groupList = Bot.getGroupList()
+        for (let i = 1; i < groupList.length; i++) {
+            let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
+            if (!groupcfg.get('GroupManage')) continue
+            if (groupcfg.get('AutoMute')) {
+                await Bot.pickGroup(groupList[i]).muteAll(true)
+                Bot.pickGroup(groupList[i]).sendMsg(`每日0:00至8:00开启全体禁言`)
+            }
+        }
+    }
+
+    async unMuteAll() {
+        const groupList = Bot.getGroupList()
+        for (let i = 1; i < groupList.length; i++) {
+            let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
+            if (!groupcfg.get('GroupManage')) continue
+            if (groupcfg.get('AutoMute')) {
+                await Bot.pickGroup(groupList[i]).muteAll(false)
+                Bot.pickGroup(groupList[i]).sendMsg(`每日0:00至8:00开启全体禁言`)
+            }
+        }
     }
 
     async delDayFiles() {
