@@ -23,6 +23,10 @@ export class groupManage extends plugin {
                     fnc: 'set60sDayNews',
                 },
                 {
+                    reg: '^(开启|关闭)定时禁言$',
+                    fnc: 'setAutoMute',
+                },
+                {
                     reg: '^设置发言榜人数上限([0-9]+)$',
                     fnc: 'setListLimit',
                 },
@@ -85,6 +89,32 @@ export class groupManage extends plugin {
         else if (option == '关闭') {
             groupcfg.set('DayNewsSet', false)
             e.reply('日报推送已关闭，发送指令：今日日报也可查看')
+            return true
+        }
+    }
+
+    async setAutoMute(e){
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
+        if (e.sender.role == 'member') {
+            if (!e.isMaster) {
+                e.reply(`暂无权限，只有主人、群主或管理员才能操作`)
+                return false
+            }
+        }
+        let reg = new RegExp(`^(开启|关闭)定时禁言`)
+        let option = reg.exec(e.msg)[1]
+        if (option == '开启') {
+            groupcfg.set('DayNewsSet', true)
+            e.reply('定时禁言已开启，请自行设置禁言时长')
+            return true
+        }
+        else if (option == '关闭') {
+            groupcfg.set('DayNewsSet', false)
+            e.reply('定时禁言已关闭')
             return true
         }
     }
