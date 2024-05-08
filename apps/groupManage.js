@@ -10,7 +10,6 @@ export class groupManage extends plugin {
         super({
             name: "群管功能",
             dsc: "对群进行管理",
-            /** https://oicqjs.github.io/oicq/#events */
             event: "message.group",
             priority: 1,
             rule: [
@@ -108,12 +107,12 @@ export class groupManage extends plugin {
         let reg = new RegExp(`^(开启|关闭)定时禁言`)
         let option = reg.exec(e.msg)[1]
         if (option == '开启') {
-            groupcfg.set('DayNewsSet', true)
+            groupcfg.set('AutoMute', true)
             e.reply('定时禁言已开启，请自行设置禁言时长')
             return true
         }
         else if (option == '关闭') {
-            groupcfg.set('DayNewsSet', false)
+            groupcfg.set('AutoMute', false)
             e.reply('定时禁言已关闭')
             return true
         }
