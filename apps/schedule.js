@@ -1,4 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
+import common from '../common/common.js'
+import axios from 'axios'
 import path from 'path'
 import fs from 'fs'
 
