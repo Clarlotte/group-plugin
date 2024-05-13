@@ -28,7 +28,8 @@ if (!fs.existsSync(config_default_path)) {
   logger.error(`${logger.red('默认设置文件不存在，请检查或重新安装插件')}`)
 }
 const config_path = path.resolve(`./plugins/group-plugin/config/config/config.js`)
-fs.copyFileSync(config_default_path, config_path)
+if (!fs.existsSync(config_path))
+  fs.copyFileSync(config_default_path, config_path)
 
 logger.mark('-----------------')
 logger.mark('groupSetting载入完毕')
