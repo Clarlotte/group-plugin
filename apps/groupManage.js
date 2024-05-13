@@ -1,5 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
+import group from '../models/group.js'
 import path from 'path'
 
 const Numreg = '[零一壹二两三四五六七八九十百千万亿\\d]+'
@@ -170,7 +171,7 @@ export class groupManage extends plugin {
         }
 
         let reg = new RegExp(`^禁言\\s?((\\d+)\\s)?(${Numreg})?(分|分钟|时|小时|天)?$`)
-        let time = common.translateChinaNum(e.msg.match(reg)[3])
+        let time = group.translateChinaNum(e.msg.match(reg)[3])
         let option = e.msg.match(reg)[4]
         if (option == '分' || option == '分钟') {
             let BanTime = time * 60
