@@ -1,4 +1,4 @@
-import { geo_key, weather_key } from '../config/config.js'
+import { geo_key, weather_key } from '../config/config/config.js'
 import weather from '../models/weather.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
