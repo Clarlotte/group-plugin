@@ -1,4 +1,5 @@
 import { geo_key, weather_key } from '../config/config.js'
+import weather from '../models/weather.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
 import axios from 'axios'
@@ -62,7 +63,7 @@ export class weatherInquiry extends plugin {
             //获取城市 cityName 风向角度
             const wind_direction = weather_data.wind.direction
             //将获取到的风速风向角度转化为风力等级
-            const wind_level = common.get_wind_level(wind_speed, wind_direction)
+            const wind_level = weather.get_wind_level(wind_speed, wind_direction)
             //获取城市 cityName 天气情况
             // const weather_condition = weather_config.get(weather_data.skycon)
             const skycon_data = common.readJsonFile('./plugins/group-plugin/config/weather_skycon.json')
