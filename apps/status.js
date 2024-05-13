@@ -1,6 +1,6 @@
 import systemInformation, { cpu } from 'systeminformation'
 import common from '../common/common.js'
-import status from '../model/status.js'
+import status from '../models/status.js'
 import puppeteer from "puppeteer";
 import path from 'path'
 import os from 'os'
