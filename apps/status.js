@@ -135,18 +135,6 @@ export class systemStatus extends plugin {
                     transform: translateX(50%);
                 }
         
-                .name-per::before {
-                    content: "";
-                    position: absolute;
-                    width: 10px;
-                    height: 10px;
-                    background: #f1f1f1;
-                    top: 2px;
-                    right: -7px;
-                    transform: translateX(50%) rotate(45deg);
-                    border-radius: 2px;
-                }
-        
                 .info {
                     margin-top: 5px;
                     margin-left: 20px;
