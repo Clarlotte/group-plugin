@@ -1,6 +1,6 @@
 {
   "name": "groupsetting",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "群管功能插件",
   "main": "index.js",
   "type": "module",
@@ -10,8 +10,7 @@
     "fs": "^0.0.1-security",
     "js-yaml": "^4.1.0",
     "node-schedule": "^2.1.1",
-    "puppeteer": "^22.4.0",
-    "systeminformation": "^5.22.8"
+    "puppeteer": "^22.4.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
