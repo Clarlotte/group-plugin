@@ -65,10 +65,9 @@ export class weatherInquiry extends plugin {
             //将获取到的风速风向角度转化为风力等级
             const wind_level = weather.get_wind_level(wind_speed, wind_direction)
             //获取城市 cityName 天气情况
-            // const weather_condition = weather_config.get(weather_data.skycon)
             const skycon_data = common.readJsonFile('./plugins/group-plugin/config/weather_skycon.json')
             const weather_condition = skycon_data[weather_data.skycon]
-            if (weather_alert.content.length) {
+            if (weather_alert == null) {
                 let msg = [
                     `${formatted_address}当前天气如下：\n`,
                     `当前天气：${weather_condition}\n`,
