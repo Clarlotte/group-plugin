@@ -177,7 +177,7 @@ export class groupManage extends plugin {
             e.reply(`没有指定需要禁言的人，我不知道需要对谁禁言哟`)
             return false
         }
-        if (e.bot.pickMember(e.at).is_admin || e.bot.pickMember(e.at).is_owner || e.isMaster) {
+        if (e.bot.pickMember(e.at).is_admin || e.bot.pickMember(e.at).is_owner) {
             e.reply(`暂无权限，我无权对群主或管理员进行此操作`)
             return false
         }
