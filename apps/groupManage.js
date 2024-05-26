@@ -42,7 +42,26 @@ export class groupManage extends plugin {
                     reg: `^踢(\\d+)?$`,
                     fnc: 'kickGroupMember',
                 },
-
+                {
+                    reg: `^设置管理(\\d+)?$`,
+                    fnc: 'setGroupManager',
+                },
+                {
+                    reg: `^撤销管理(\\d+)?$`,
+                    fnc: 'cancelGroupManager',
+                },
+                // {
+                //     reg: `^我要头衔(.+)$`,
+                //     fnc: 'giveTitle',
+                // },
+                // {
+                //     reg: '^我不想要头衔了',
+                //     fnc: 'cancelTitle',
+                // },
+                // {
+                //     reg: '^撤销头衔(\\d+)?$',
+                //     fnc: 'repealTitle',
+                // },
             ]
         })
     }
@@ -93,7 +112,7 @@ export class groupManage extends plugin {
         }
     }
 
-    async setAutoMute(e){
+    async setAutoMute(e) {
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
             e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
@@ -138,6 +157,7 @@ export class groupManage extends plugin {
     }
 
     async GroupBan(e) {
+        console.log(e)
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
             e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
@@ -149,11 +169,7 @@ export class groupManage extends plugin {
                 return false
             }
         }
-        let self_data = await e.bot.sendApi("get_group_member_info", {
-            group_id: e.group_id,
-            user_id: e.self_id,
-        })
-        if (self_data.role == 'member') {
+        if (!e.group.is_admin && !e.group.is_owner) {
             e.reply(`暂无权限，我无权对任何人进行此操作`)
             return false
         }
@@ -161,11 +177,7 @@ export class groupManage extends plugin {
             e.reply(`没有指定需要禁言的人，我不知道需要对谁禁言哟`)
             return false
         }
-        let ban_data = await e.bot.sendApi("get_group_member_info", {
-            group_id: e.group_id,
-            user_id: e.at,
-        })
-        if (ban_data.role != 'member') {
+        if (e.bot.pickMember(e.at).is_admin || e.bot.pickMember(e.at).is_owner || e.isMaster) {
             e.reply(`暂无权限，我无权对群主或管理员进行此操作`)
             return false
         }
@@ -243,5 +255,108 @@ export class groupManage extends plugin {
         e.reply(`我已成功将他踢出`, true)
     }
 
+    //设置管理
+    async setGroupManager(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
+        if (!e.group.is_owner) return false
+        if (e.at == null) return false
+        if (!e.isMaster) return false
+        if (e.bot.pickMember(e.at).is_admin) {
+            e.reply(`此人已经是本群的管理了，无法进行设置`)
+        } else {
+            e.bot.sendApi("set_group_admin", {
+                group_id: e.group_id,
+                user_id: e.at,
+                enable: true,
+            })
+            let remsg = [`已经成功将`, segment.at(e.at), `设置为本群管理了`]
+            e.reply(remsg)
+        }
+    }
+
+    //取消管理
+    async cancelGroupManager(e) {
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+            return false
+        }
+        if (!e.group.is_owner) return false
+        if (e.at == null) return false
+        if (!e.isMaster) return false
+        if (e.bot.pickMember(e.at).is_admin) {
+            e.reply(`此人不是本群的管理了，无法进行设置`)
+        } else {
+            e.bot.sendApi("set_group_admin", {
+                group_id: e.group_id,
+                user_id: e.at,
+                enable: false,
+            })
+            let remsg = [`已经成功取消`, segment.at(e.at), `本群管理了`]
+            e.reply(remsg)
+        }
+    }
+
+    // //我要头衔
+    // async giveTitle(e) {
+    //     let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+    //     if (!groupcfg.get('GroupManage')) {
+    //         e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+    //         return false
+    //     }
+    //     let reg = new RegExp('^我要头衔(.+)$')
+    //     let title = reg.exec(e.msg)[1]
+    //     if (!e.group.is_owner) return false
+    //     if (title.length > 6 || title.length <= 0) {
+    //         e.reply(`头衔最大长度为6，请重新输入`)
+    //     } else {
+    //         console.log(await e.bot.sendApi("set_group_special_title", {
+    //             group_id: e.group_id,
+    //             user_id: e.user_id,
+    //             special_title: title,
+    //             // duration,
+    //         }))
+    //         e.reply(`已为你成功将头衔设置为${title}`)
+    //     }
+
+    // }
+
+    // //我不想要头衔了
+    // async cancelTitle(e) {
+    //     let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+    //     if (!groupcfg.get('GroupManage')) {
+    //         e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+    //         return false
+    //     }
+    //     if (!e.group.is_owner) return false
+    //     e.bot.pickGroup.setTitle(e.user_id, '');
+    //     e.reply(`头衔撤销成功了`);
+    // }
+
+    // //撤销头衔
+    // async repealTitle(e) {
+    //     let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+    //     if (!groupcfg.get('GroupManage')) {
+    //         e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
+    //         return false
+    //     }
+    //     if (!e.group.is_owner) return false
+    //     if (!e.bot.pickMember(e.user_id).is_admin && !e.bot.pickMember(e.user_id).is_owner) {
+    //         if (!e.isMaster) {
+    //             e.reply(`暂无权限，只有主人、群主或管理员才能操作`)
+    //             return false
+    //         }
+    //     }
+    //     if (e.at == null) {
+    //         e.reply(`没有指定撤销谁的头衔，我不知道需要撤销谁的头衔`)
+    //         return false
+    //     }
+    //     e.group.setTitle(qq, '')
+    //     e.reply(`头衔已撤销成功`)
+    // }
 }
 
