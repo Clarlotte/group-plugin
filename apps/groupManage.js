@@ -157,7 +157,6 @@ export class groupManage extends plugin {
     }
 
     async GroupBan(e) {
-        console.log(e)
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
             e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
@@ -177,7 +176,7 @@ export class groupManage extends plugin {
             e.reply(`没有指定需要禁言的人，我不知道需要对谁禁言哟`)
             return false
         }
-        if (e.bot.pickMember(e.at).is_admin || e.bot.pickMember(e.at).is_owner) {
+        if (e.group.pickMember(Number(e.at)).is_admin || e.group.pickMember(Number(e.at)).is_owner) {
             e.reply(`暂无权限，我无权对群主或管理员进行此操作`)
             return false
         }
@@ -187,15 +186,15 @@ export class groupManage extends plugin {
         let option = e.msg.match(reg)[4]
         if (option == '分' || option == '分钟') {
             let BanTime = time * 60
-            e.group.muteMember(e.at, BanTime)
+            e.group.muteMember(Number(e.at), BanTime)
         }
         else if (option == '时' || option == '小时') {
             let BanTime = time * 60 * 60
-            e.group.muteMember(e.at, BanTime)
+            e.group.muteMember(Number(e.at), BanTime)
         }
         else if (option == '天') {
             let BanTime = time * 60 * 60 * 24
-            e.group.muteMember(e.at, BanTime)
+            e.group.muteMember(Number(e.at), BanTime)
         }
     }
 
@@ -239,14 +238,11 @@ export class groupManage extends plugin {
                 return false
             }
         }
-        let self_data = await e.bot.sendApi("get_group_member_info", {
-            group_id: e.group_id,
-            user_id: e.self_id,
-        })
-        if (self_data.role == 'member') {
-            e.reply(`暂无权限，我无权对任何人进行此操作`)
-            return false
+        if (!e.group.is_owner || !e.group.is_admin) { 
+            e.reply(`我无法对管理员或群主进行操作`)
+            return false 
         }
+        if (!e.group.pickMember(Number(e.at)).is_admin) return false
         if (e.at == null) {
             e.reply(`我不知道你要踢谁哟，请指定一下再进行操作吧`)
             return false
@@ -265,12 +261,12 @@ export class groupManage extends plugin {
         if (!e.group.is_owner) return false
         if (e.at == null) return false
         if (!e.isMaster) return false
-        if (e.bot.pickMember(e.at).is_admin) {
+        if (e.group.pickMember(Number(e.at)).is_admin) {
             e.reply(`此人已经是本群的管理了，无法进行设置`)
         } else {
             e.bot.sendApi("set_group_admin", {
                 group_id: e.group_id,
-                user_id: e.at,
+                user_id: Number(e.at),
                 enable: true,
             })
             let remsg = [`已经成功将`, segment.at(e.at), `设置为本群管理了`]
@@ -288,12 +284,12 @@ export class groupManage extends plugin {
         if (!e.group.is_owner) return false
         if (e.at == null) return false
         if (!e.isMaster) return false
-        if (e.bot.pickMember(e.at).is_admin) {
+        if (!e.group.pickMember(Number(e.at)).is_admin) {
             e.reply(`此人不是本群的管理了，无法进行设置`)
         } else {
             e.bot.sendApi("set_group_admin", {
                 group_id: e.group_id,
-                user_id: e.at,
+                user_id: Number(e.at),
                 enable: false,
             })
             let remsg = [`已经成功取消`, segment.at(e.at), `本群管理了`]
