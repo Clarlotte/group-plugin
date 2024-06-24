@@ -238,16 +238,18 @@ export class groupManage extends plugin {
                 return false
             }
         }
-        if (!e.group.pickMember(Number(e.at)).is_admin || !e.group.pickMember(Number(e.at)).is_owner) { 
+        console.log(!e.group.pickMember(Number(e.at)).is_admin || !e.group.pickMember(Number(e.at)).is_owner)
+        if (!e.group.pickMember(Number(e.at)).is_admin || !e.group.pickMember(Number(e.at)).is_owner) {
+            if (e.at == null) {
+                e.reply(`我不知道你要踢谁哟，请指定一下再进行操作吧`)
+                return false
+            }
+            e.group.kickMember(Number(e.at), true)
+            e.reply(`我已成功将他踢出`, true)
+        } else {
             e.reply(`我无法对管理员或群主进行操作`)
-            return false 
-        }
-        if (e.at == null) {
-            e.reply(`我不知道你要踢谁哟，请指定一下再进行操作吧`)
             return false
         }
-        e.group.kickMember(e.at)
-        e.reply(`我已成功将他踢出`, true)
     }
 
     //设置管理
