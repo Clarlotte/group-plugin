@@ -212,8 +212,8 @@ export class groupManage extends plugin {
             }
         }
         let self_data = await e.bot.sendApi("get_group_member_info", {
-            group_id: e.group_id,
-            user_id: e.self_id,
+            group_id: Number(e.group_id),
+            user_id: Number(e.self_id),
         })
         if (self_data.role == 'member') {
             e.reply(`暂无权限，我无权对任何人进行此操作`)
@@ -223,7 +223,7 @@ export class groupManage extends plugin {
             e.reply(`没有指定需要解禁的人，我不知道需要对谁解禁哟`)
             return false
         }
-        e.group.muteMember(e.at, 0)
+        e.group.muteMember(Number(e.at), 0)
     }
 
     async kickGroupMember(e) {
@@ -238,11 +238,10 @@ export class groupManage extends plugin {
                 return false
             }
         }
-        if (!e.group.is_owner || !e.group.is_admin) { 
+        if (!e.group.pickMember(Number(e.at)).is_admin || !e.group.pickMember(Number(e.at)).is_owner) { 
             e.reply(`我无法对管理员或群主进行操作`)
             return false 
         }
-        if (!e.group.pickMember(Number(e.at)).is_admin) return false
         if (e.at == null) {
             e.reply(`我不知道你要踢谁哟，请指定一下再进行操作吧`)
             return false
