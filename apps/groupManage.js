@@ -50,6 +50,10 @@ export class groupManage extends plugin {
                     reg: `^撤销管理(\\d+)?$`,
                     fnc: 'cancelGroupManager',
                 },
+                /**
+                 * 由于api无法实现以下功能，故不启用
+                 */
+                
                 // {
                 //     reg: `^我要头衔(.+)$`,
                 //     fnc: 'giveTitle',
@@ -239,16 +243,17 @@ export class groupManage extends plugin {
             }
         }
         console.log(!e.group.pickMember(Number(e.at)).is_admin || !e.group.pickMember(Number(e.at)).is_owner)
-        if (!e.group.pickMember(Number(e.at)).is_admin || !e.group.pickMember(Number(e.at)).is_owner) {
+        if (e.group.pickMember(Number(e.at)).is_admin || e.group.pickMember(Number(e.at)).is_owner) {
+            e.reply(`我无法对管理员或群主进行操作`)
+            return false
+        } else {
             if (e.at == null) {
                 e.reply(`我不知道你要踢谁哟，请指定一下再进行操作吧`)
                 return false
             }
             e.group.kickMember(Number(e.at), true)
             e.reply(`我已成功将他踢出`, true)
-        } else {
-            e.reply(`我无法对管理员或群主进行操作`)
-            return false
+            
         }
     }
 
