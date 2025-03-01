@@ -3,6 +3,7 @@ import weather from '../models/weather.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
 import axios from 'axios'
+import path from "path"
 
 export class weatherInquiry extends plugin {
     dirPath = path.resolve("./plugins/group-plugin/data")
