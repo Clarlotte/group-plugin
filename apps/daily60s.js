@@ -29,7 +29,7 @@ export class autoDaily60s extends plugin {
         }
         let url = 'https://jx.iqfk.top/60s.php?key=54K55paw6Iqx6Zuo'
         const response = await axios.get(url)
-        const imageUrl = response.data.imageUrl
+        const imageUrl = response.data.data.imageUrl
         let msg = segment.image(imageUrl, false, 120)
         e.reply(msg)
     }
