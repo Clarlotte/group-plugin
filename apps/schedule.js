@@ -49,7 +49,7 @@ export class schedule extends plugin {
 
     async push60s() {
         const groupList = Bot.getGroupList()
-        let url = 'http://api.2xb.cn/zaob'
+        let url = 'https://jx.iqfk.top/60s.php?key=54K55paw6Iqx6Zuo'
         let response = await axios.get(url)
         const imageUrl = response.data.imageUrl
         for (let i = 1; i < groupList.length; i++) {
