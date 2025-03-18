@@ -49,8 +49,9 @@ export class schedule extends plugin {
 
     async push60s() {
         const groupList = Bot.getGroupList()
-        let url = 'https://jx.iqfk.top/60s.php?key=54K55paw6Iqx6Zuo'
-        let response = await axios.get(url)
+        let configcfg = common.getConfigYaml()
+        let url = configcfg.get('Daily_Api')
+        const response = await axios.get(url)
         const imageUrl = response.data.imageUrl
         for (let i = 1; i < groupList.length; i++) {
             let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
