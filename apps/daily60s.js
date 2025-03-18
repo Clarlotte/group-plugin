@@ -27,9 +27,11 @@ export class autoDaily60s extends plugin {
             e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
             return false
         }
-        let url = 'https://jx.iqfk.top/60s.php?key=54K55paw6Iqx6Zuo'
+        let configcfg = common.getConfigYaml()
+        let url = configcfg.get('Daily_Api')
         const response = await axios.get(url)
-        const imageUrl = response.data.data.image
+        const imageUrl = response.data.imageUrl || response.data.data.image
+        console.log(imageUrl)
         let msg = segment.image(imageUrl, false, 120)
         e.reply(msg)
     }
