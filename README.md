@@ -106,9 +106,6 @@ sudo fc-cache -fv
 6. 赞我<br>
 ![赞我](resources/images/%E8%B5%9E%E6%88%91.png)
 7. 设置日报Api<br>
-![赞我](resources/images/%E8%B5%9E%E6%88%91.png)
 8. 设置高德token<br>
-![赞我](resources/images/%E8%B5%9E%E6%88%91.png)
 9. 设置天气token<br>
-![赞我](resources/images/%E8%B5%9E%E6%88%91.png)
 </details>
