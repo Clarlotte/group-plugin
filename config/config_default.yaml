@@ -1,0 +1,6 @@
+#高德token
+Geo_Token: ''
+#天气token
+Weather_Token: ''
+#日报API
+Daily_Api: 'https://api.2xb.cn/zaob'
