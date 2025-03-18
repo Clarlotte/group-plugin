@@ -1,4 +1,3 @@
-import { geo_key, weather_key } from '../config/config/config.js'
 import weather from '../models/weather.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
@@ -29,6 +28,8 @@ export class weatherInquiry extends plugin {
             e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
             return false
         }
+        let configcfg = common.getConfigYaml()
+        let geo_key = configcfg.get('Geo_Token'), weather_key = configcfg.get('Weather_Token')
         if (geo_key == '' || weather_key == '') {
             e.reply('天气功能配置不全，请在config.js中进行配置')
             return false
