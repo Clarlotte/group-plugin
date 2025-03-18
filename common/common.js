@@ -42,4 +42,9 @@ function getGroupYaml(dirPath, group_id) {
     return groupcfg
 }
 
-export default { readJsonFile, getGroupYaml }
+function getConfigYaml() {
+    let configcfg = new YamlReader(pathAddr + '/plugins/group-plugin/config/config/config.yaml' , true)
+    return configcfg
+}
+
+export default { readJsonFile, getGroupYaml, getConfigYaml }
