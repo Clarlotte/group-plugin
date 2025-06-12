@@ -1,7 +1,14 @@
-import { config } from 'process'
+/*
+ * @Author: Clarlotte
+ * @Date: 2025-06-10 19:49:08
+ * @LastEditors: Clarlotte
+ * @LastEditTime: 2025-06-12 15:40:14
+ * @FilePath: /root/Yunzai/plugins/group-plugin/apps/manage.js
+ * @Descripttion: 
+ */
+
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
-import group from '../models/group.js'
 import path from 'path'
 
 export class autoDaily60s extends plugin {
@@ -40,8 +47,7 @@ export class autoDaily60s extends plugin {
             let configcfg = common.getConfigYaml()
             configcfg.set("Daily_Api", Daily_Api[1])
             e.reply(`设置成功，日报API已设置为：${Daily_Api[1]}`)
-        }
-        else {
+        } else {
             e.reply('请在私聊中设置')
         }
     }
@@ -56,8 +62,7 @@ export class autoDaily60s extends plugin {
             let configcfg = common.getConfigYaml()
             configcfg.set("Geo_Token", Geo_Token[1])
             e.reply(`设置成功，高德token已设置为：${Geo_Token[1]}`)
-        }
-        else {
+        } else {
             e.reply('请在私聊中设置')
         }
     }
@@ -72,8 +77,7 @@ export class autoDaily60s extends plugin {
             let configcfg = common.getConfigYaml()
             configcfg.set("Weather_Token", Weather_Token[1])
             e.reply(`设置成功，天气token已设置为：${Weather_Token[1]}`)
-        }
-        else {
+        } else {
             e.reply('请在私聊中设置')
         }
     }
