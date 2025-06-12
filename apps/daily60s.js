@@ -1,3 +1,11 @@
+/*
+ * @Author: Clarlotte
+ * @Date: 2025-06-10 19:49:08
+ * @LastEditors: Clarlotte
+ * @LastEditTime: 2025-06-12 13:19:26
+ * @FilePath: /root/Yunzai/plugins/group-plugin/apps/daily60s.js
+ * @Descripttion: 
+ */
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
 import axios from 'axios'
