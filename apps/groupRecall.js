@@ -1,3 +1,11 @@
+/*
+ * @Author: Clarlotte
+ * @Date: 2024-12-22 15:21:47
+ * @LastEditors: Clarlotte
+ * @LastEditTime: 2025-06-12 13:20:12
+ * @FilePath: /root/Yunzai/plugins/group-plugin/apps/groupRecall.js
+ * @Descripttion: 
+ */
 import common from '../common/common.js'
 import path from 'path'
 import fs from 'fs'
