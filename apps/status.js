@@ -1,3 +1,11 @@
+/*
+ * @Author: Clarlotte
+ * @Date: 2024-12-22 15:21:47
+ * @LastEditors: Clarlotte
+ * @LastEditTime: 2025-06-12 13:26:05
+ * @FilePath: /root/Yunzai/plugins/group-plugin/apps/status.js
+ * @Descripttion: 
+ */
 import systemInformation, { cpu } from 'systeminformation'
 import common from '../common/common.js'
 import status from '../models/status.js'
@@ -34,7 +42,7 @@ export class systemStatus extends plugin {
         const info = await systemInformation.get({
             currentLoad: 'currentLoad',
             cpu: 'manufacturer, brand, speed, cores, physicalCores',
-            mem: 'total, free',
+            mem: 'total, free,available',
             osInfo: 'platform, distro, release'
         })
         if (cpus.length === 0)
@@ -42,11 +50,11 @@ export class systemStatus extends plugin {
         else
             CPUinfo = cpus[0].model
         //内存使用率
-        let MemUsage = (1 - info.mem.free / info.mem.total).toFixed(2) * 100 + "%"
+        let MemUsage = ((1 - info.mem.available / info.mem.total) * 100).toFixed(2) + "%";
         // 总共内存
         let totalmem = await status.getFileSize(info.mem.total)
         // 使用内存
-        let Usingmemory = await status.getFileSize((info.mem.total - info.mem.free))
+        let Usingmemory = await status.getFileSize((info.mem.total - info.mem.available))
         //CPU使用率
         let CPUsage = Math.round(info.currentLoad.currentLoad) + '%'
         //系统版本信息
