@@ -2,7 +2,7 @@
  * @Author: Clarlotte
  * @Date: 2025-06-12 13:17:30
  * @LastEditors: Clarlotte
- * @LastEditTime: 2025-06-12 15:41:06
+ * @LastEditTime: 2025-06-12 15:57:22
  * @FilePath: /root/Yunzai/plugins/group-plugin/apps/deepSeekAI.js
  * @Descripttion: 
  */
@@ -43,8 +43,8 @@ export class deepseekAI extends plugin {
             { role: "user", content: `${text}` }
             ],
             model: "deepseek-chat",
+            temperature: 1.3,
         });
         e.reply(`${completion.choices[0].message.content}`, true)
-        console.log(completion.choices[0].message.content)
     }
 }
