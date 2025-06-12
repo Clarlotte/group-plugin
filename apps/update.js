@@ -1,3 +1,11 @@
+/*
+ * @Author: Clarlotte
+ * @Date: 2024-12-22 15:21:47
+ * @LastEditors: Clarlotte
+ * @LastEditTime: 2025-06-12 13:27:15
+ * @FilePath: /root/Yunzai/plugins/group-plugin/apps/update.js
+ * @Descripttion: 
+ */
 import plugin from '../../../lib/plugins/plugin.js'
 import lodash from 'lodash'
 import { createRequire } from 'module'
