@@ -1,3 +1,11 @@
+/*
+ * @Author: Clarlotte
+ * @Date: 2025-06-10 19:49:08
+ * @LastEditors: Clarlotte
+ * @LastEditTime: 2025-06-12 14:35:49
+ * @FilePath: /root/Yunzai/plugins/group-plugin/apps/groupManage.js
+ * @Descripttion: 
+ */
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../common/common.js'
 import group from '../models/group.js'
@@ -141,7 +149,8 @@ export class groupManage extends plugin {
             return true
         }
     }
-
+    
+    //设置发言榜人数上限
     async setListLimit(e) {
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
@@ -159,8 +168,9 @@ export class groupManage extends plugin {
         groupcfg.set('Listlimit', num)
         e.reply(`已成功将设置发言榜人数上限修改为${num}人`)
     }
-
+    
     async GroupBan(e) {
+        
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
             e.reply('该群群管功能未开启，请发送开启群管启用该群的群管功能')
