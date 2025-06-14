@@ -2,7 +2,7 @@
  * @Author: Clarlotte
  * @Date: 2025-06-12 13:17:30
  * @LastEditors: Clarlotte
- * @LastEditTime: 2025-06-14 14:00:04
+ * @LastEditTime: 2025-06-14 14:07:51
  * @FilePath: /root/Yunzai/plugins/group-plugin/apps/deepSeekAI.js
  * @Descripttion: 
  */
@@ -29,8 +29,13 @@ export class deepseekAI extends plugin {
         let text = e.msg.replace('chat', '');
         let configcfg = common.getConfigYaml()
         let DeepSeek_API_Key = configcfg.get('DeepSeek_API_Key')
-        if (!DeepSeek_API_Key) {
-            e.reply('请先前往group_plugin/config/config/config.yaml中配置 DeepSeek_API_Key')
+        const DeepSeek_Model = configcfg.get('DeepSeek_Model')
+        if (DeepSeek_Model == null || DeepSeek_Model == '') {
+            e.reply('请配置 DeepSeek_Model，指令为设置模型<模型名称>')
+            return false
+        }
+        if (DeepSeek_API_Key == null || DeepSeek_API_Key == '') {
+            e.reply('请配置 DeepSeek_API_Key 密钥，指令为设置apikey<api密钥>')
             return false
         }
         const openai = new OpenAI({
@@ -39,7 +44,7 @@ export class deepseekAI extends plugin {
         })
         try {
             const completion = await openai.chat.completions.create({
-                model: 'gpt-4-all',
+                model: DeepSeek_Model,
                 messages: [
                     { role: "system", content: `` },
                     { role: "user", content: `${text}` }
