@@ -12,6 +12,8 @@
 
 天气查询使用的是[彩云天气API](https://platform.caiyunapp.com/login)（[彩云天气API文档](https://docs.caiyunapp.com/docs/intro)），**key**自行登录获取，由于彩云天气使用的是经纬度坐标进行查询天气，所以这里使用了高德对用户发送的城市进行经纬度转化（[高德开放平台](https://lbs.amap.com/)，并创建web服务应用获取**key**），这两个key分别可使用指令设置高德token，设置天气token直接进行设置（如有其他api可自行进行修改weatherInquiry.js中的代码）
 
+AI聊天采用的是[柏拉图AI](https://api.bltcy.cn/register?aff=OiRD)相比下，比官方的便宜点，api密钥在注册登录之后，点击工作台-令牌-添加令牌，然后点击提交，在key(密钥)处复制即可，私发机器人指令`设置apikey<api>`，然后在柏拉图支持模型中，选择一个自己心仪的模型，私发机器人`设置模型<模型名称>`即可，在此柏拉图AI中，每个令牌分组的收费标准不一，请选择自己合适的令牌分组，并在令牌列表，编辑中，可以自行添加自己的令牌分组
+
 ## 如何安装llonebot-docker
 
 <details><summary>展开/收起</summary>
