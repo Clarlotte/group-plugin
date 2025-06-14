@@ -4,5 +4,7 @@ Geo_Token: ''
 Weather_Token: ''
 #DeepSeek_API_Key
 DeepSeek_API_Key: ''
+#DeepSeek_Model
+DeepSeek_Model: ''
 #日报API
 Daily_Api: 'https://api.2xb.cn/zaob'
