@@ -2,7 +2,7 @@
  * @Author: Clarlotte
  * @Date: 2025-06-10 19:49:08
  * @LastEditors: Clarlotte
- * @LastEditTime: 2025-06-14 13:23:57
+ * @LastEditTime: 2025-06-14 14:02:12
  * @FilePath: /root/Yunzai/plugins/group-plugin/apps/manage.js
  * @Descripttion: 
  */
@@ -37,6 +37,10 @@ export class autoDaily60s extends plugin {
                     reg: '^设置apikey([\\w-]+)$',
                     fnc: 'setApiKey'
                 },
+                {
+                    reg: '^设置模型([\\w-]+)$',
+                    fnc: 'setModel'
+                }
             ]
         })
     }
@@ -87,7 +91,6 @@ export class autoDaily60s extends plugin {
     }
     async setApiKey(e) {
         if (e.isPrivate) {
-            let text = e.msg.replace('chat', '');
             const Api_Key = e.msg.replace('设置apikey', '')
             if (!Api_Key) {
                 e.reply('指令格式错误，请使用正确的格式：设置apikey<API密钥>')
@@ -96,6 +99,20 @@ export class autoDaily60s extends plugin {
             let configcfg = common.getConfigYaml()
             configcfg.set("DeepSeek_API_Key", Api_Key)
             e.reply(`设置成功，API密钥已设置为：${Api_Key}`)
+        } else {
+            e.reply('请在私聊中设置')
+        }
+    }
+    async setModel(e) {
+        if (e.isPrivate) {
+            const Model = e.msg.replace('设置模型', '')
+            if (!Model) {
+                e.reply('指令格式错误，请使用正确的格式：设置模型<模型名称>')
+                return false
+            }
+            let configcfg = common.getConfigYaml()
+            configcfg.set("DeepSeek_Model", Model)
+            e.reply(`设置成功，模型已设置为：${Model}`)
         } else {
             e.reply('请在私聊中设置')
         }
