@@ -2,7 +2,7 @@
  * @Author: Clarlotte
  * @Date: 2025-06-12 13:17:30
  * @LastEditors: Clarlotte
- * @LastEditTime: 2025-06-12 15:57:22
+ * @LastEditTime: 2025-06-14 14:00:04
  * @FilePath: /root/Yunzai/plugins/group-plugin/apps/deepSeekAI.js
  * @Descripttion: 
  */
@@ -34,17 +34,37 @@ export class deepseekAI extends plugin {
             return false
         }
         const openai = new OpenAI({
-            baseURL: 'https://api.deepseek.com',
+            baseURL: 'https://api.bltcy.cn/v1',
             apiKey: DeepSeek_API_Key
         })
-
-        const completion = await openai.chat.completions.create({
-            messages: [{ role: "system", content: `` },
-            { role: "user", content: `${text}` }
-            ],
-            model: "deepseek-chat",
-            temperature: 1.3,
-        });
-        e.reply(`${completion.choices[0].message.content}`, true)
+        try {
+            const completion = await openai.chat.completions.create({
+                model: 'gpt-4-all',
+                messages: [
+                    { role: "system", content: `` },
+                    { role: "user", content: `${text}` }
+                ],
+                temperature: 1.3,
+            });
+            e.reply(`${completion.choices[0].message.content}`, true)
+        }
+        catch (error) {
+            if (error.error == 400) {
+                e.reply(`请求错误，请检查您的输入是否正确`)
+            }
+            else if (error.status == 401) {
+                e.reply(`API key错误，认证失败，请检查您的API key是否正确，如没有API key，请先创建API key`,)
+            } else if (error.status == 402) {
+                e.reply(`账号余额不足，请确认账户余额，并前往充值页面进行充值`)
+            } else if (error.status == 422) {
+                e.reply(`请求体参数错误，请检查您的输入是否正确`)
+            } else if (error.status == 429) {
+                e.reply(`请求速率（TPM 或 RPM）达到上限`)
+            } else if (error.status == 500) {
+                e.reply(`服务器内部错误，请稍后再试`)
+            } else if (error.status == 503) {
+                e.reply(`服务不可用，请稍后再试`)
+            }
+        }
     }
 }
