@@ -2,7 +2,7 @@
  * @Author: Clarlotte
  * @Date: 2025-06-10 19:49:08
  * @LastEditors: Clarlotte
- * @LastEditTime: 2025-06-12 15:40:14
+ * @LastEditTime: 2025-06-14 13:23:57
  * @FilePath: /root/Yunzai/plugins/group-plugin/apps/manage.js
  * @Descripttion: 
  */
@@ -32,6 +32,10 @@ export class autoDaily60s extends plugin {
                 {
                     reg: '^设置天气token([\\w]+)$',
                     fnc: 'setWeatherToken'
+                },
+                {
+                    reg: '^设置apikey([\\w-]+)$',
+                    fnc: 'setApiKey'
                 },
             ]
         })
@@ -77,6 +81,21 @@ export class autoDaily60s extends plugin {
             let configcfg = common.getConfigYaml()
             configcfg.set("Weather_Token", Weather_Token[1])
             e.reply(`设置成功，天气token已设置为：${Weather_Token[1]}`)
+        } else {
+            e.reply('请在私聊中设置')
+        }
+    }
+    async setApiKey(e) {
+        if (e.isPrivate) {
+            let text = e.msg.replace('chat', '');
+            const Api_Key = e.msg.replace('设置apikey', '')
+            if (!Api_Key) {
+                e.reply('指令格式错误，请使用正确的格式：设置apikey<API密钥>')
+                return false
+            }
+            let configcfg = common.getConfigYaml()
+            configcfg.set("DeepSeek_API_Key", Api_Key)
+            e.reply(`设置成功，API密钥已设置为：${Api_Key}`)
         } else {
             e.reply('请在私聊中设置')
         }
