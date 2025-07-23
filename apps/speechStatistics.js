@@ -58,15 +58,28 @@ export class speechStatistics extends plugin {
         data = data.slice(0, groupcfg.get('Listlimit'))
         let msg = `本群发言榜${user_msg[1] || `日榜`}如下：`
         let div_data = '', paiming = 0, height = 230
-        for (let item of data) {
-            paiming++
-            div_data += `<div class="user">
+        if (user_msg[1] == `日榜`) {
+            for (let item of data) {
+                paiming++
+                div_data += `<div class="user">
                             <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
                             <div class="secondary-line">
                                 <div class="message">今天已发言</div>
                                 <span class="number">${item.number}</span>条
                             </div>
-                        </div>`
+                            </div>`
+            }
+        }else{
+            for (let item of data) {
+                paiming++
+                div_data += `<div class="user">
+                            <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
+                            <div class="secondary-line">
+                                <div class="message">本月已发言</div>
+                                <span class="number">${item.number}</span>条
+                            </div>
+                            </div>`
+            }
         }
         height += 110 * (paiming - 1)
         const browser = await puppeteer.launch({
