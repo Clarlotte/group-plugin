@@ -47,7 +47,7 @@ export class groupManage extends plugin {
                     fnc: 'GroupunBan',
                 },
                 {
-                    reg: `^踢(\\d+)?$`,
+                    reg: `^.踢(\\d+)?$`,
                     fnc: 'kickGroupMember',
                 },
                 {
