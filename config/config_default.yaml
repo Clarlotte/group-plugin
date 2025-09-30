@@ -7,4 +7,4 @@ DeepSeek_API_Key: ''
 #DeepSeek_Model
 DeepSeek_Model: ''
 #日报API
-Daily_Api: 'https://api.2xb.cn/zaob'
+Daily_Api: 'http://60api.09cdn.xyz/v2/60s'
