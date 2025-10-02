@@ -2,7 +2,7 @@
  * @Author: Clarlotte
  * @Date: 2025-06-10 19:49:08
  * @LastEditors: Clarlotte
- * @LastEditTime: 2025-06-12 13:26:37
+ * @LastEditTime: 2025-10-02 12:10:32
  * @FilePath: /root/Yunzai/plugins/group-plugin/apps/schedule.js
  * @Descripttion: 
  */
@@ -101,7 +101,7 @@ export class schedule extends plugin {
         const currentDate = new Date();
         // 获取前一天的日期
         const previousDate = new Date(currentDate);
-        previousDate.setDate(currentDate.getDate() - 1);
+        previousDate.setDate(currentDate.getDate() - 2);
         // 格式化前一天的日期
         const year = previousDate.getFullYear();
         const month = String(previousDate.getMonth() + 1).padStart(2, '0');
