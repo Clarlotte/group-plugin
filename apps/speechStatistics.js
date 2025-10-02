@@ -157,19 +157,17 @@ export class speechStatistics extends plugin {
         data = data.slice(0, groupcfg.get('Listlimit'))
         let msg = `本群发言榜${user_msg[1] || `日榜`}如下：`
         let div_data = '', paiming = 0, height = 230
-
         for (let item of data) {
             paiming++
-            // 添加图片统计显示，使用相同的格式
-            const imageDisplay = item.image ? `<span class="number">${item.image}</span>张` : ''
+            // 根据是否有图片决定显示内容
+            const imageDisplay = item.image ? `，含图片<span class="number">${item.image}</span>张` : ''
             const timeText = user_msg[1] == `日榜` ? '今天' : '本月'
 
             div_data += `<div class="user">
                         <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
                         <div class="secondary-line">
                             <div class="message">${timeText}已发言</div>
-                            <span class="number">${item.number}</span>条，含图片
-                            ${imageDisplay}
+                            <span class="number">${item.number}</span>条${imageDisplay}
                         </div>
                         </div>`
         }
@@ -313,15 +311,14 @@ export class speechStatistics extends plugin {
         let div_data = '', paiming = 0, height = 230
         for (let item of data) {
             paiming++
-            // 添加图片统计显示，使用相同的格式
-            const imageDisplay = item.image ? `<span class="number">${item.image}</span>张` : ''
+            // 根据是否有图片决定显示内容
+            const imageDisplay = item.image ? `，含图片<span class="number">${item.image}</span>张` : ''
 
             div_data += `<div class="user">
                         <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
                         <div class="secondary-line">
                             <div class="message">昨天已发言</div>
-                            <span class="number">${item.number}</span>条，含图片
-                            ${imageDisplay}
+                            <span class="number">${item.number}</span>条${imageDisplay}
                         </div>
                         </div>`
         }
