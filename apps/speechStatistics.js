@@ -37,6 +37,101 @@ export class speechStatistics extends plugin {
         })
     }
 
+    async snots(e) {
+        console.log(e.message[0].type)
+        // console.log(date_time)
+        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
+        if (!groupcfg.get('GroupManage')) {
+            return false
+        }
+        if (!fs.existsSync(this.dirPath + `/${e.group_id}/`)) {
+            fs.mkdirSync(this.dirPath + `/${e.group_id}/`, { recursive: true })
+        }
+
+        // 判断消息类型
+        const isImage = e.message[0].type === 'image'
+
+        // 处理日榜数据
+        await this.updateUserStats(e, 'day', isImage)
+        // 处理月榜数据
+        await this.updateUserStats(e, 'month', isImage)
+
+        // 保存消息记录（保持不变）
+        let message_data
+        try {
+            message_data = fs.readFileSync(this.dirPath + `/${e.group_id}/${e.group_id}_message.json`, `utf-8`)
+            message_data = JSON.parse(message_data)
+        } catch {
+            message_data = {}
+        }
+
+        if (!message_data[e.user_id]) {
+            message_data[e.user_id] = [];
+        }
+        message_data[e.user_id].push(e.message_id)
+        message_data = JSON.stringify(message_data, null, 3)
+        fs.writeFileSync(this.dirPath + `/${e.group_id}/${e.group_id}_message.json`, message_data, `utf-8`)
+
+        return false
+    }
+
+    /**
+     * 更新用户统计数据
+     * @param {*} e 事件对象
+     * @param {string} type 统计类型 'day' | 'month'
+     * @param {boolean} isImage 是否为图片消息
+     */
+    async updateUserStats(e, type, isImage) {
+        const fileName = type === 'day'
+            ? `${await gettoday()}_snots.json`
+            : `${await getmonth()}_snots.json`
+
+        const filePath = this.dirPath + `/${e.group_id}/${fileName}`
+
+        let data
+        try {
+            data = fs.readFileSync(filePath, `utf-8`)
+            data = JSON.parse(data)
+        } catch {
+            data = []
+        }
+
+        // 查找用户现有数据
+        let userIndex = -1
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].user_id == e.user_id) {
+                userIndex = i
+                break
+            }
+        }
+
+        if (userIndex !== -1) {
+            // 更新现有用户数据
+            data[userIndex].number = (data[userIndex].number || 0) + 1
+
+            // 如果是图片消息，增加图片计数
+            if (isImage) {
+                data[userIndex].image = (data[userIndex].image || 0) + 1
+            }
+
+            // 更新昵称（可能用户改了群名片）
+            data[userIndex].nickname = e.sender.nickname
+        } else {
+            // 创建新用户数据
+            let user_data = {
+                user_id: e.user_id,
+                nickname: e.sender.nickname,
+                number: 1,
+                image: isImage ? 1 : 0  // 初始化图片统计
+            }
+            data.push(user_data)
+        }
+
+        // 保存数据
+        data = JSON.stringify(data, null, 3)
+        fs.writeFileSync(filePath, data, `utf-8`)
+    }
+
     async speechStatistics(e) {
         let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
         if (!groupcfg.get('GroupManage')) {
@@ -62,28 +157,21 @@ export class speechStatistics extends plugin {
         data = data.slice(0, groupcfg.get('Listlimit'))
         let msg = `本群发言榜${user_msg[1] || `日榜`}如下：`
         let div_data = '', paiming = 0, height = 230
-        if (user_msg[1] == `日榜`) {
-            for (let item of data) {
-                paiming++
-                div_data += `<div class="user">
-                            <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
-                            <div class="secondary-line">
-                                <div class="message">今天已发言</div>
-                                <span class="number">${item.number}</span>条
-                            </div>
-                            </div>`
-            }
-        } else {
-            for (let item of data) {
-                paiming++
-                div_data += `<div class="user">
-                            <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
-                            <div class="secondary-line">
-                                <div class="message">本月已发言</div>
-                                <span class="number">${item.number}</span>条
-                            </div>
-                            </div>`
-            }
+
+        for (let item of data) {
+            paiming++
+            // 添加图片统计显示，使用相同的格式
+            const imageDisplay = item.image ? `<span class="number">${item.image}</span>张` : ''
+            const timeText = user_msg[1] == `日榜` ? '今天' : '本月'
+
+            div_data += `<div class="user">
+                        <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
+                        <div class="secondary-line">
+                            <div class="message">${timeText}已发言</div>
+                            <span class="number">${item.number}</span>条，含图片
+                            ${imageDisplay}
+                        </div>
+                        </div>`
         }
         height += 110 * (paiming - 1)
         const browser = await puppeteer.launch({
@@ -147,6 +235,17 @@ export class speechStatistics extends plugin {
                 }
                 .number {
                     background-color: rgb(35, 209, 96);
+                    border-radius: 10px;
+                    padding: 5px;
+                    height: 23px;
+                    display: flex;
+                    align-items: center;
+                    margin-right: 5px;
+                    margin-left: 5px;
+                    font-size: 25px;
+                }
+                .image-number {
+                    background-color: rgb(66, 135, 245);
                     border-radius: 10px;
                     padding: 5px;
                     height: 23px;
@@ -193,7 +292,7 @@ export class speechStatistics extends plugin {
         }
         let data
         try {
-            // // 获取当前日期
+            // 获取当前日期
             const date = new Date();
             date.setDate(date.getDate() - 1);
             // 格式化为 YYYY-MM-DD
@@ -214,13 +313,17 @@ export class speechStatistics extends plugin {
         let div_data = '', paiming = 0, height = 230
         for (let item of data) {
             paiming++
+            // 添加图片统计显示，使用相同的格式
+            const imageDisplay = item.image ? `<span class="number">${item.image}</span>张` : ''
+
             div_data += `<div class="user">
-                            <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
-                            <div class="secondary-line">
-                                <div class="message">今天已发言</div>
-                                <span class="number">${item.number}</span>条
-                            </div>
-                            </div>`
+                        <div class="user-info">第${paiming}名：${item.nickname}(${item.user_id})</div>
+                        <div class="secondary-line">
+                            <div class="message">昨天已发言</div>
+                            <span class="number">${item.number}</span>条，含图片
+                            ${imageDisplay}
+                        </div>
+                        </div>`
         }
         height += 110 * (paiming - 1)
         const browser = await puppeteer.launch({
@@ -293,6 +396,17 @@ export class speechStatistics extends plugin {
                     margin-left: 5px;
                     font-size: 25px;
                 }
+                .image-number {
+                    background-color: rgb(66, 135, 245);
+                    border-radius: 10px;
+                    padding: 5px;
+                    height: 23px;
+                    display: flex;
+                    align-items: center;
+                    margin-right: 5px;
+                    margin-left: 5px;
+                    font-size: 25px;
+                }
                 .secondary-line {
                     display: flex;
                     align-items: center;
@@ -320,116 +434,6 @@ export class speechStatistics extends plugin {
         await browser.close();
         e.reply(segment.image(this.dirPath + `/${e.group_id}/${e.group_id}.png`));
         return true
-    }
-
-    async snots(e) {
-        // console.log(e.message)
-        // console.log(date_time)
-        let groupcfg = common.getGroupYaml(this.dirPath, e.group_id)
-        if (!groupcfg.get('GroupManage')) {
-            return false
-        }
-        if (!fs.existsSync(this.dirPath + `/${e.group_id}/`)) {
-            fs.mkdirSync(this.dirPath + `/${e.group_id}/`, { recursive: true })
-        }
-
-        let data, message_data;
-        let date = await gettoday()
-        try {
-            data = fs.readFileSync(this.dirPath + `/${e.group_id}/${date}_snots.json`, `utf-8`)
-            data = JSON.parse(data)
-            message_data = fs.readFileSync(this.dirPath + `/${e.group_id}/${e.group_id}_message.json`, `utf-8`)
-            message_data = JSON.parse(message_data)
-        } catch {
-            data = []
-            message_data = {}
-        }
-        let temp_data = []
-        for (let item of data) {
-            if (item.user_id == e.user_id) temp_data.push(item)
-        }
-        if (temp_data.length > 0) {
-            await deljson(temp_data[0], this.dirPath + `/${e.group_id}/${date}_snots.json`)
-            await autochuli(temp_data, this.dirPath + `/${e.group_id}/${date}_snots.json`)
-        } else {
-            let user_data = {
-                user_id: e.user_id,
-                nickname: e.sender.nickname,
-                number: 1
-            }
-            data.push(user_data)
-            data = JSON.stringify(data, null, 3)
-            fs.writeFileSync(this.dirPath + `/${e.group_id}//${date}_snots.json`, data, `utf-8`)
-        }
-        let month = await getmonth()
-        try {
-            data = fs.readFileSync(this.dirPath + `/${e.group_id}/${month}_snots.json`, `utf-8`)
-            data = JSON.parse(data)
-        } catch {
-            data = []
-        }
-        temp_data = []
-        for (let item of data) {
-            if (item.user_id == e.user_id) temp_data.push(item)
-        }
-        if (temp_data.length > 0) {
-            await deljson(temp_data[0], this.dirPath + `/${e.group_id}/${month}_snots.json`)
-            await autochuli(temp_data, this.dirPath + `/${e.group_id}/${month}_snots.json`)
-        } else {
-            let user_data = {
-                user_id: e.user_id,
-                nickname: e.sender.nickname,
-                number: 1
-            }
-            data.push(user_data)
-            data = JSON.stringify(data, null, 3)
-            fs.writeFileSync(this.dirPath + `/${e.group_id}/${month}_snots.json`, data, `utf-8`)
-        }
-        if (!message_data[e.user_id]) {
-            message_data[e.user_id] = [];
-        }
-        message_data[e.user_id].push(e.message_id)
-        message_data = JSON.stringify(message_data, null, 3)
-        fs.writeFileSync(this.dirPath + `/${e.group_id}/${e.group_id}_message.json`, message_data, `utf-8`)
-        return false
-    }
-}
-
-async function autochuli(data, filePath) {
-    data[0].number++
-    let new_data = fs.readFileSync(filePath, `utf-8`)
-    new_data = JSON.parse(new_data)
-    new_data.push(data[0])
-    new_data = JSON.stringify(new_data, null, 3)
-    fs.writeFileSync(filePath, new_data)
-}
-/**
- * 删除JSON数组内容
- * @param {*} deldata 要删除的数据
- * @param {string} filePath 路径
- */
-async function deljson(deldata, filePath) {
-    try {
-        let data = fs.readFileSync(filePath, 'utf-8');
-        data = JSON.parse(data);
-        if (!Array.isArray(data)) return false;
-        let filteredData = []
-        for (let item of data) {
-            item = JSON.stringify(item)
-            deldata = JSON.stringify(deldata)
-            if (item != deldata) {
-                item = JSON.parse(item)
-                filteredData.push(item)
-                deldata = JSON.parse(deldata)
-            }
-        }
-
-        const tempData = JSON.stringify(filteredData, null, 3);
-        fs.writeFileSync(filePath, tempData, 'utf-8');
-        return true;
-    } catch (error) {
-        console.error('Error processing the file', error);
-        return false;
     }
 }
 
