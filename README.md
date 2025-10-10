@@ -1,5 +1,6 @@
 # group-plugin
 [![Visits Badge](https://badges.pufler.dev/visits/clarlotte/group-plugin)](https://gitee.com/clarlotte/group-plugin/)
+
 ## 关于
 
 本人才疏学浅，代码写得很难，所以大家体谅一下，本插件功能是根据我自身需求进行编写，可能部分功能对你们没有用处，所以所有功能均设置了指令开关（所有功能均默认关闭），如果需要其他的功能，可以提交issue，后续可能加上
@@ -90,6 +91,7 @@ sudo fc-cache -fv
 显示这样就是安装成功
 
 ![](https://s2.loli.net/2024/04/10/t2lH8xjFOkJGEmX.png)
+
 ## 功能说明
 
 所有指令目前均不支持`/`、`#`等符号<br>
