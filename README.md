@@ -1,5 +1,4 @@
-# group-plugin
-[![Visits Badge](https://badges.pufler.dev/visits/clarlotte/group-plugin)](https://gitee.com/clarlotte/group-plugin/)
+# Group-plugin
 
 ## 关于
 
