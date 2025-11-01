@@ -2,7 +2,7 @@
  * @Author: Clarlotte
  * @Date: 2025-06-10 19:49:08
  * @LastEditors: Clarlotte
- * @LastEditTime: 2025-10-02 12:10:32
+ * @LastEditTime: 2025-11-01 14:17:44
  * @FilePath: /root/Yunzai/plugins/group-plugin/apps/schedule.js
  * @Descripttion: 
  */
@@ -60,7 +60,7 @@ export class schedule extends plugin {
         let configcfg = common.getConfigYaml()
         let url = configcfg.get('Daily_Api')
         const response = await axios.get(url)
-        const imageUrl = response.data.imageUrl
+        const imageUrl = response.data.imageUrl || response.data.data.image
         for (let i = 1; i < groupList.length; i++) {
             let groupcfg = common.getGroupYaml(this.dirPath, groupList[i])
             if (!groupcfg.get('GroupManage')) continue
@@ -128,7 +128,7 @@ export class schedule extends plugin {
     async delMonthFiles() {
         // 获取当前日期
         const currentDate = new Date();
- 
+
         // 获取上一个月的年份和月份
         let previousYear = currentDate.getFullYear();
         let previousMonth = currentDate.getMonth() - 1;
